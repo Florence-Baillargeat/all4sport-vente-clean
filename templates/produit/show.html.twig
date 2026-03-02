@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ produit.libelle }}{% endblock %}
+
+{% block body %}
+<link href="{{ asset('styles/showproduit.css') }}" rel="stylesheet" type="text/css"/>
+
+<div class="product-page">
+
+    <div class="product-gallery">
+        {% for image in produit.image %}
+            <img src="{{ image.url }}" alt="{{ produit.libelle }}">
+        {% endfor %}
+    </div>
+
+    <div class="product-info">
+
+    <h2 class="product-title">{{ produit.libelle }}</h2>
+
+    <div class="product-badges">
+        <span>Nouveau</span>
+        <span>Qualité premium</span>
+        <span>Stock limité</span>
+    </div>
+
+    <div class="product-price">{{ produit.prix }} €</div>
+
+    <ul class="product-features">
+        <li>✔ Livraison rapide</li>
+        <li>✔ Paiement sécurisé</li>
+        <li>✔ Garantie 2 ans</li>
+    </ul>
+
+    <div class="product-description-box">
+        <h4>Description</h4>
+        <p>{{ produit.description }}</p>
+    </div>
+
+    <div class="product-meta">
+        <div><strong>Référence :</strong> {{ produit.id }}</div>
+        <div><strong>Catégorie :</strong> {{ produit.categorie.libelle ?? '—' }}</div>
+    </div>
+
+    <div class="product-actions">
+        <button class="btn-add">Ajouter au panier</button>
+        <a href="{{ path('app_produit') }}" class="btn-back">Retour</a>
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

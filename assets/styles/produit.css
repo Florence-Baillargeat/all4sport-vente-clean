@@ -1,0 +1,525 @@
+.content {
+    display: flex;
+    overflow: hidden;
+
+    flex: 1;
+}
+
+.all-produces {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(270px, 1fr));
+    gap: 25px;
+    padding: 30px;
+
+    max-height: 100%;
+    overflow-y: scroll;
+    width: 100%;
+
+    align-items: start;
+    justify-items: stretch;
+}
+
+@media screen and (max-width: 1600px) {
+    .all-produces {
+        grid-template-columns: repeat(3, minmax(270px, 1fr));
+
+    }
+
+}
+
+/* --- CARD PRODUIT --- */
+.produit {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 18px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    opacity: 0;
+    transition: all 0.3s ease;
+    animation: 1s dropDown ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes dropDown {
+    0% {
+        opacity: 0;
+    }
+
+    70% {
+        transform: translateY(42px);
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+.produit .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.produit .top .libelle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.produit .top .prix {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e53e3e;
+    /* rouge doux pour contraste */
+
+    white-space: nowrap;
+    margin-left: 15px;
+}
+
+.produit .img-cat {
+    background: purple;
+
+    display: flex;
+    gap: 5px;
+}
+
+.produit .img-cat .img {
+    flex: 1;                  /* prend toute la place disponible dans le parent */
+    aspect-ratio: 1 / 1;      /* carré */
+
+    min-width: 0;              /* évite le dépassement si le parent est flex */
+}
+
+
+/* --- CATEGORY TAG --- */
+.produit .categories {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.produit .categories .item-categorie {
+    display: inline-block;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+
+    width: min-content;
+
+    border-radius: 15px;
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    color: white;
+
+    box-shadow: 0 4px 12px rgba(58, 123, 213, 0.25);
+}
+
+/* --- DESCRIPTION --- */
+.produit .description {
+    margin: 12px 0;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    flex: 1;
+}
+
+/* --- DIVIDER --- */
+.line95 {
+    height: 1px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.08);
+    margin: 10px 0;
+}
+
+/* --- BUTTONS --- */
+.produit .buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.produit .buttons a {
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    text-align: center;
+    text-decoration: none;
+}
+
+/* View Button */
+.produit .buttons .view {
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    /* bleu clair / violet doux */
+    color: #1f2937;
+    /* texte sombre */
+    flex: 1;
+}
+
+.produit .buttons .view:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* Add Button */
+.produit .buttons .add {
+    background: linear-gradient(135deg, #ffb3b3, #ff8c8c);
+    /* rose clair / corail */
+    color: #1f2937;
+    /* texte sombre */
+    padding: 10px 30px;
+}
+
+.produit .buttons .add:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* --- FILTER PANEL --- */
+.all-filter {
+    width: 25%;
+    padding: 20px;
+    margin: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+    animation: leftToRight 1.15s ease-out;
+
+}
+
+@keyframes leftToRight {
+    0% {
+        transform: translateX(-500px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+.all-filter h3 {
+    font-weight: 600;
+    color: #333;
+}
+
+.all-filter h2 {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #555;
+
+    padding-bottom: 30px;
+}
+
+.fields {
+    display: flex;
+    gap: 10px;
+    padding-left: 10px;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+
+    margin: 20px 0;
+}
+
+.input-field {
+    display: flex;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.unchecked svg {
+    opacity: 1;
+    transition: 1s;
+}
+
+.checked svg {
+    opacity: 0;
+    transition: 1s;
+}
+
+.input-field input[type="radio"]:checked+label .unchecked svg {
+    opacity: 0;
+    transition: 1s;
+}
+
+.input-field input[type="radio"]:checked+label .checked svg {
+    opacity: 1;
+    transition: 1s;
+}
+
+.input-field input[type="radio"]:checked+label {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 30px 20px rgba(0, 0, 0, 0.1);
+}
+
+.check-display {
+    height: 14px;
+    aspect-ratio: 1/1;
+    display: flex;
+    position: relative;
+}
+
+svg {
+    height: 16px;
+    aspect-ratio: 1/1;
+    fill: #333;
+}
+
+.checked,
+.unchecked {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0.5s;
+}
+
+/* FILTER BUTTONS (labels) */
+label {
+    display: flex;
+    gap: 10px;
+    padding-left: 0px;
+
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    /* bleu clair */
+    color: #1f2937;
+    /* texte sombre */
+
+    padding: 7px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+
+    font-size: 14px;
+    transition: transform 0.3s;
+}
+
+.gap {
+    flex: 1;
+}
+
+.filter-button {
+    width: 100%;
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    border: none;
+    padding: 10px 0px;
+    border-radius: 7px;
+
+    transition: 0.3s;
+
+    font-size: 16px;
+
+    cursor: pointer;
+    
+}
+
+.filter-button:first-of-type{
+    margin-bottom: 10px;
+}
+
+.filter-button:hover {
+    transform: translateY(-5px);
+
+}
+
+
+.range {
+    display: flex;
+
+    gap: 20px;
+
+}
+
+.min,
+.max {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+
+    align-items: center;
+
+    padding: 0px 10px;
+}
+
+.min span,
+.max span {
+    font-weight: bolder;
+}
+
+
+.range input {
+    width: 100px;
+
+    padding: 5px 10px;
+
+    outline: none;
+}
+
+.min input {
+    border: 2px solid transparent;
+    border-radius: 5px;
+
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #cbd5ff, #a3bffa) border-box;
+}
+
+.max input {
+    border: 2px solid transparent;
+    border-radius: 5px;
+
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #ffb3b3, #ff8c8c) border-box;
+}
+
+
+
+.welcome-div {
+    backdrop-filter: blur(12px);
+    border: 1px solid #333;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+
+    padding: 15px 30px;
+    border-radius: 12px;
+
+    z-index: 10000;
+
+    animation: welcomAnim 4s ease-out forwards;
+
+}
+
+@keyframes welcomAnim {
+    0% {
+        transform: translate(-50%, -150px);
+    }
+
+    30% {
+        transform: translate(-50%, 0px);
+    }
+
+    85% {
+        transform: translate(-50%, 0px);
+    }
+
+    100% {
+        transform: translate(-50%, -150px);
+    }
+}
+
+.filter-name {
+    border: 2px solid transparent;
+    border-radius: 5px;
+
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #cbd5ff, #a3bffa) border-box;
+
+        padding: 10px 25px;
+}
+
+
+
+/* --- CUSTOM SELECT --- */
+select {
+    appearance: none; /* Supprime le style par défaut */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding: 10px 25px;
+    border-radius: 7px;
+    border: 2px solid transparent;
+
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #cbd5ff, #a3bffa) border-box;
+
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.3s;
+
+    
+}
+
+select:disabled {
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(200deg, #e2e8f0, #cbd5ff) border-box; /* gris clair / bleu doux */
+    color: #9ca3af; /* texte gris pour montrer qu'il est désactivé */
+    cursor: not-allowed; /* curseur interdit */
+    opacity: 0.7; /* léger effet de transparence */
+    transform: none; /* supprime les animations hover */
+    box-shadow: none;
+}
+
+/* Petite flèche personnalisée */
+select::-ms-expand {
+    display: none;
+}
+
+select:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(58, 123, 213, 0.25);
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);
+}
+
+/* --- OPTION --- */
+option {
+    padding: 8px 15px;
+    background: white;
+    color: #1f2937;
+    font-weight: 500;
+}
+
+/* Pour ajouter un style au survol (si supporté par navigateur) */
+option:hover {
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    color: white;
+}

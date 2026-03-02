@@ -1,0 +1,41 @@
+ENFANT: nom, prenom, dateNaissance
+Appartient, 0N USERS, 12 ENFANT
+SPORTS: id, libelle,  
+:
+:
+:
+
+AUTHENTIFIER, 11 CREDENTIALS, 11 USERS
+USERS: code, nom, prenom, adresse, telephone, dateNaissance
+PRATIQUER, 0N USERS, 0N SPORTS
+STATUT_COMMANDE: id, libelle
+:
+I AM FIORA SUPP: Challenger, 1200LP
+
+CREDENTIALS: id, mail, pwd, roles
+COMMANDER, 0N USERS, 11 COMMANDE_CLIENTS
+COMMANDE_CLIENTS: id, dateCommande
+EST, 0N STATUT_COMMANDE, 11 COMMANDE_CLIENTS
+:
+:
+
+:
+:
+CONTENIR, 0N PRODUITS, 0N COMMANDE_CLIENTS: quantite, prixUnitaire
+ENTREPOTS: id, nom, adresse, Web
+:
+:
+
+IMAGES: id, url
+IMAGER, 1N PRODUITS, 11 IMAGES
+PRODUITS: id, libelle, prix, reference, fournisseur, description
+ENTREPOSER, 0N PRODUITS, 0N ENTREPOTS: quantite, catigorie
+:
+:
+
+:
+CATEGORIES: id, libelle
+CATEGORISER, 0N CATEGORIES, 1N PRODUITS
+:
+:
+:

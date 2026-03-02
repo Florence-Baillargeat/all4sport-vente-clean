@@ -1,0 +1,83 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\Produit;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @extends ServiceEntityRepository<Produit>
+ */
+class ProduitRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Produit::class);
+    }
+
+    public function getAllForHome(String $name, String $order, int $min, int $max, ?int $categorie = null) {
+
+        $sql = $this->createQueryBuilder('p')
+                    ->select('p.id, p.libelle, p.prix, p.description, c.libelle as categorie, MIN(i.url) as url')
+                    ->join('p.categorie', 'c')
+                    ->leftJoin('p.image', "i")
+                    ->where('p.libelle like :name')
+                    ->andwhere('p.prix >= :min')
+                    ->andwhere('p.prix <= :max')
+                    ->setParameter('name', "%$name%")
+                    ->setParameter('min', $min)
+                    ->setParameter('max', $max)
+                    ->groupBy('p.id')
+                    ;
+
+        if (strtoupper($categorie) != null) {
+            $sql->andwhere("c.id = :cat")
+                ->setparameter("cat", $categorie);
+        }
+
+        if (strtoupper($order) === 'ASC' || strtoupper($order) === 'DESC') {
+            $sql->orderBy('p.prix', strtoupper($order));
+        }
+
+        return $sql->getQuery()->getResult();
+    }   
+
+    public function getMaxPrice() {
+
+        $sql = $this->createQueryBuilder('p')
+                    ->select('p.prix')
+                    ->join('p.categorie', 'c')
+                    ->orderBy('p.prix', 'desc')
+                    ->setMaxResults(1)
+                    ;
+
+
+        return $sql->getQuery()->getResult();
+    }   
+
+    //    /**
+    //     * @return Produits[] Returns an array of Produits objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('p.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Produits
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
+}

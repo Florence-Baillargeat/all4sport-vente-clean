@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <h1>Bonjour 
+            {{ utilisateur.prenom}}
+        </h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5>Informations personnelles</h5>
+                <p><strong>Nom :</strong>    {{ utilisateur.nom}}</p>
+                <p><strong>Prénom :</strong> {{ utilisateur.prenom }}</p>
+                <p><strong>Email :</strong>   {{ credential.email }}</p>
+                <p><strong>Téléphone :</strong> {{ utilisateur.telephone}}</p>
+                <p><strong>Adresse :</strong> {{ utilisateur.adresse}}</p>
+            </div>
+        </div>
+        <form method="post" action="{{ path('app_compte_delete') }}" 
+      onsubmit="return confirm('Vraiment supprimer votre compte ? Cette action est irréversible !');">
+    
+    <input type="hidden" name="_token" value="{{ csrf_token('delete-account-' ~ app.user.id) }}">
+    
+    <button type="submit" class="btn">
+        Supprimer mon compte
+    </button>
+</form>
+    </div>
+{% endblock %}

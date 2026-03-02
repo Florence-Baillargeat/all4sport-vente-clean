@@ -1,0 +1,195 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All4Sport - Produits{% endblock %}
+
+
+{% block body %}
+<link href="{{ asset('styles/produit.css') }}" rel="stylesheet" type="text/css"/>
+
+{% if app.user %}
+
+    <div class="welcome-div"> 
+         <span class="title-blue title" >Welcome</span>
+         <span class="title-red title"> {{app.user.getUser().getPrenom()}} </span>
+    </div>
+
+{% endif %}
+
+    <div class="content"> 
+        <form class="all-filter"> 
+            <h2> Filter </h2>
+
+            <div class="order order">
+                <input type="text" name="name" class="filter-name" value="{{name}}">
+            </div>
+
+
+            <div class="line">
+                <div class="line95"></div>
+            </div>
+
+
+
+            <div class="order order">
+                <h3>Price Order</h3>
+
+                <div class="fields"> 
+                
+                    <div class="input-field">
+                        <input type="radio" id="price-null" name="order" value="null" 
+                    {% if order == 'null' %} checked {% endif %}>
+                        <label for="price-null">
+                        
+                            <div class="check-display">
+                            <div class="unchecked">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 24 24"><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM8 16V4h12l.002 12H8z"/><path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8zm8.933 3.519-1.726-1.726-1.414 1.414 3.274 3.274 5.702-6.84-1.538-1.282z"/></svg>
+                            </div>
+                            <div class="checked">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 24 24"><path d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6.933 12.481-3.274-3.274 1.414-1.414 1.726 1.726 4.299-5.159 1.537 1.281-5.702 6.84z"/><path d="M4 22h11v-2H4V8H2v12c0 1.103.897 2 2 2z"/></svg>
+                            </div>
+                        </div>
+
+                        Aucun</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="radio" id="price-desc" name="order" value="desc" {% if order == 'desc' %} checked {% endif %}>
+                    
+                        <label for="price-desc">
+                        
+                        <div class="check-display">
+                            <div class="unchecked">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="24px" height="24px" viewBox="0 0 24 24"><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM8 16V4h12l.002 12H8z"/><path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8zm8.933 3.519-1.726-1.726-1.414 1.414 3.274 3.274 5.702-6.84-1.538-1.282z"/></svg>
+                            </div>
+                            <div class="checked">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="24px" height="24px" viewBox="0 0 24 24"><path d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6.933 12.481-3.274-3.274 1.414-1.414 1.726 1.726 4.299-5.159 1.537 1.281-5.702 6.84z"/><path d="M4 22h11v-2H4V8H2v12c0 1.103.897 2 2 2z"/></svg>
+                            </div>
+                        </div>
+
+                        Décroissant</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="radio" id="price-asc" name="order" value="asc" {% if order == 'asc' %} checked {% endif %}>
+                        <label for="price-asc">
+
+                            <div class="check-display">
+                            <div class="unchecked">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="24px" height="24px" viewBox="0 0 24 24"><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM8 16V4h12l.002 12H8z"/><path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8zm8.933 3.519-1.726-1.726-1.414 1.414 3.274 3.274 5.702-6.84-1.538-1.282z"/></svg>
+                            </div>
+                            <div class="checked">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="24px" height="24px" viewBox="0 0 24 24"><path d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6.933 12.481-3.274-3.274 1.414-1.414 1.726 1.726 4.299-5.159 1.537 1.281-5.702 6.84z"/><path d="M4 22h11v-2H4V8H2v12c0 1.103.897 2 2 2z"/></svg>
+                            </div>
+                        </div>
+
+                        Croissant</label>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="line">
+                <div class="line95"></div>
+            </div>
+
+
+
+            <div class="order order">
+                <h3>Price Range</h3>
+                <div class="range">
+                    <div class="min"> 
+                        <span class="title-blue">Min</span>
+                        <input type="number" name="min" value="{{min}}" min=0> 
+                    </div>
+                    <div class="max"> 
+                        <span class="title-red">Max</span>
+                        <input type="number" name="max" value="{{max}}" max={{ maxPrice }}> 
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="line">
+                <div class="line95"></div>
+            </div>
+
+            <div class="order order">
+                <h3>Categories</h3>
+                <select name="categorie" id="selectCat"> 
+                    <option value=""> --All--</option>
+                    {% for cat in allCategories %}
+                    <option value="{{cat.id}}" {% if categorieSelected == cat.id %} selected {% endif %} > {{cat.libelle}} </option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+
+            <div class="gap"></div>
+
+            <button name="action" value="filter" class="filter-button" type="submit"> Filter </button>
+            <button name="action" value="reset" class="filter-button"> Reset </button>
+
+        </form>
+
+        <div class="all-produces">
+
+            {% for p in produits %}
+
+            <div class="produit"
+                style="
+                    transform: translateY(-500px) ;
+                    animation-delay: {{ loop.index * 0.05 }}s;
+                "
+            >
+                <div class="top"> 
+                    <div class="libelle">{{p.libelle}} </div>
+                    <div class="prix">{{p.prix}} $</div> 
+                </div>
+                <div class="line">
+                    <div class="line95"></div>
+                </div>
+                <div class="categories">
+                        <div class="item-categorie">{{p.categorie}}</div>
+                </div>
+                <div class="line">
+                    <div class="line95"></div>
+                </div>
+                <div class="img-cat">
+                   <div class="img"
+                style="background:url( {{p.url ? p.url : "https://arthurmillerfoundation.org/wp-content/uploads/2018/06/default-placeholder.png"}} ); background-size:cover; background-position: center; "
+                   > 
+                   </div>
+                </div>
+                <div class="line">
+                    <div class="line95"></div>
+                </div>
+                <div class="description">
+                {{p.description}}
+                </div>
+                <div class="line">
+                    <div class="line95"></div>
+                </div>
+                <div class="buttons">
+                    <a class="view" href="{{ path('app_produit_show', {'id': p.id}) }}">View Produce</a>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a class="add">Edit</a>
+                    {% else %}
+                        <a class="add">Add</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+
+        <footer>
+        ALL4SPORT © Tous droits réservés
+    </footer>
+
+
+<script src="{{asset('javascripts/PANIER.js')}}"> </script>
+<script src="{{asset('javascripts/accueil.js')}}" defer> </script>
+{% endblock %}

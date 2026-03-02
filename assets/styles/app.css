@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* ===== Scrollbar Dark Theme ===== */
+
+/* Largeur de la scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Fond de la scrollbar */
+::-webkit-scrollbar-track {
+    background: #12131a;
+    border-radius: 10px;
+}
+
+/* Barre scroll elle-même */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 200, 255, 0.35);
+}
+
+
+
+body {
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+
+    /* Dark background */
+    background: #fff;
+
+    overflow-x: hidden;
+}
+
+.line {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2px;
+    max-height: 2px;
+}
+
+.line95 {
+    width: 95%;
+    height: 100%;
+    background: #fff;
+}
+
+nav {
+    animation: navAnim 1s ease-out;
+}
+
+@keyframes navAnim {
+    0% {
+        transform: translateY(-100px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+footer {
+    background: #333333;
+    color: #dddddd;
+    padding: 10px 0;
+
+    text-align: center;
+
+    animation: footerAnim 1.3s ease-out;
+
+}
+
+
+@keyframes footerAnim {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+.title {
+    font-weight: bolder;
+    font-size: 28px;
+}
+
+.title-blue {
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.title-red {
+    background: linear-gradient(135deg, #ffb3b3, #ff8c8c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+nav {
+    background: #f2f2f2;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px 30px;
+}
+
+nav .logo a {
+    text-decoration: none;
+    font-style: italic;
+}
+
+nav .nav-content ul {
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    padding-right: 20px;
+}
+
+nav .nav-content ul li {
+    list-style: none;
+}
+
+nav .nav-content ul li a {
+    text-decoration: none;
+    font-size: 18px;
+
+    color: #12131a;
+
+    font-weight: bolder;
+}
+
+nav .nav-content ul li  a:hover {
+
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+.modal {
+    backdrop-filter: blur(8px);   
+
+    position: absolute;
+
+    top: 50px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    padding: 20px 30px;
+    border-radius: 12px;
+    
+    border: 1px solid #FFFFFF;
+
+    box-shadow: 0px 10px 52px 0px rgba(0,0,0,0.75);
+    transform: translateY(-200px);
+
+    transition: 0.5s;
+    
+}
+
+.mActif{
+    transform: translateY(0px);
+
+}
