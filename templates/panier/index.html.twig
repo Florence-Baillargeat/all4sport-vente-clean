@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PanierController!{% endblock %}
+{% block title %}Votre panier{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,16 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/floflo/projets vsc/all4sport-vente-clean/src/Controller/PanierController.php</code></li>
-        <li>Your template at <code>/home/floflo/projets vsc/all4sport-vente-clean/templates/panier/index.html.twig</code></li>
-    </ul>
+    <h1>Votre panier</h1>
+
+    <p>
+        Voici les produits que vous avez ajoutés à votre panier :
+    </p>
+
+    <a href="{{ path('app_produit') }}">Continuer vos achats</a>
+    
 </div>
+<script src="{{asset('javascripts/PANIER.js')}}"> </script>
+<script src="{{asset('javascripts/accueil.js')}}" defer> </script>
 {% endblock %}

@@ -42,7 +42,7 @@
     </div>
 
     <div class="product-actions">
-        <button class="btn-add">Ajouter au panier</button>
+        <button class="btn-add" onclick="tryToAdd({{ produit.id }}, '{{ produit.libelle }}')">Ajouter au panier</button>
         <a href="{{ path('app_produit') }}" class="btn-back">Retour</a>
     </div>
 
@@ -50,5 +50,6 @@
 
 
 </div>
-
+<script src="{{asset('javascripts/PANIER.js')}}"> </script>
+<script src="{{asset('javascripts/accueil.js')}}" defer> </script>
 {% endblock %}

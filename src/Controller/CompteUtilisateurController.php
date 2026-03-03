@@ -65,10 +65,13 @@ public function delete(
         return $this->redirectToRoute('app_compte_utilisateur');
     }
 
+    $session->invalidate();
+    $this->container->get('security.token_storage')->setToken(null);
+
     $em->remove($credential);
     $em->flush();
 
-    $session->invalidate();
+
     $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
 
     return $this->redirectToRoute('app_login');

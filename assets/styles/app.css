@@ -162,21 +162,21 @@ nav .nav-content ul li  a:hover {
     top: 50px;
     left: 50%;
 
-    transform: translateX(-50%);
-
     padding: 20px 30px;
     border-radius: 12px;
     
     border: 1px solid #FFFFFF;
 
     box-shadow: 0px 10px 52px 0px rgba(0,0,0,0.75);
-    transform: translateY(-200px);
+    transform: translate(-50%, -200px);
 
     transition: 0.5s;
+
+    text-align: center;
     
 }
 
 .mActif{
-    transform: translateY(0px);
+    transform: translate(-50%, 0px);
 
 }
