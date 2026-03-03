@@ -72,6 +72,22 @@ class ProduitRepository extends ServiceEntityRepository
         return $sql->getQuery()->getResult();
     }   
 
+
+    public function getPanierWithJson( array $listId = []) {
+
+        $sql = $this->createQueryBuilder("p")
+                    ->select("p.id, p.libelle, p.prix")
+                    ->join('p.categorie', 'c')
+                    ->leftJoin('p.image', "i")
+                    ->where("p.id IN (:listId)")
+                    ->setParameter('listId', $listId)
+                    ->groupBy('p.id');
+        
+        return $sql->getQuery()->getResult();
+
+    }
+
+
     //    /**
     //     * @return Produits[] Returns an array of Produits objects
     //     */

@@ -1,0 +1,156 @@
+/* ===== PANIER ===== */
+
+.panier-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.panier-card {
+    background: #f8f9ff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.panier-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
+}
+
+.panier-item:last-child {
+    border-bottom: none;
+}
+
+.panier-total {
+    text-align: right;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.panier-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-gradient:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+}
+
+.btn-outline {
+    border: 2px solid #667eea;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #667eea;
+    transition: 0.3s;
+}
+
+.btn-outline:hover {
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    color: #12131a;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.quantite-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.6);
+}
+
+.quantite {
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.panier-item .nom {
+    width: 450px;
+}
+
+.prix {
+    flex: 1;
+    text-align: end ;
+}
+/* Wrapper qui prend tout l'espace et centre le loader */
+.loader-wrapper {
+  position: absolute;      /* prend tout l'espace du parent positionné */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;           /* flex pour centrer facilement */
+  justify-content: center; /* centre horizontalement */
+  align-items: center;     /* centre verticalement */
+  pointer-events: none;    /* permet de passer les clics au parent si nécessaire */
+
+  padding-top: 20px;
+}
+
+/* Loader circulaire */
+.loader {
+  border: 8px solid #000;
+  border-top: 8px solid #cbd5ff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation rotation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.list-panier {
+    position: relative;
+}

@@ -1,13 +1,16 @@
-const modal = document.getElementById('modalDiv');
+{
+    const modal = document.getElementById('modalDiv');
 
-function newModal(text, duree) {
-    console.log("New Modal Function Call")
+    function newModal(text, duree) {
+        console.log("New Modal Function Call")
 
-    modal.children[0].innerHTML = text;
-    modal.classList.toggle("mActif")
-
-    setTimeout( () => {
-
+        modal.children[0].innerHTML = text;
         modal.classList.toggle("mActif")
-    }, duree * 1000)
+
+        setTimeout( () => {
+
+            modal.classList.toggle("mActif")
+        }, duree * 1000)
+    }
+
 }

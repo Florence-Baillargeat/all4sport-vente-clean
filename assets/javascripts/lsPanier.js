@@ -17,32 +17,38 @@
 	* ⚠️ Les informations complètes du produit (nom, prix, image, etc.)
 	* sont récupérées côté serveur à partir de l’articleId.
 	*/
+{
+	let PANIER = "All4Sport-panier";
 
-const PANIER = "All4Sport-panier";
-
-function getPanier() {
-	_ = localStorage.getItem(PANIER) || "[]";
-	return JSON.parse(_);
-}
-
-function savePanier(newPanier) {
-	localStorage.setItem(PANIER, JSON.stringify(newPanier));
-}
-
-function addToPanier(id, qtt, name = "Article") {
-	_ = getPanier();
-
-	alreadyExiste = _.find(e => e.articleId == id)
-
-	if (alreadyExiste) {
-		alreadyExiste.quantiter += qtt;
-
-	}else {
-		_.push({
-			articleId: id,
-			quantiter: qtt
-		})
+	function getPanier() {
+		_ = localStorage.getItem(PANIER) || "[]";
+		return JSON.parse(_);
 	}
-	savePanier(_);
-	newModal(` ${name}, <br> ajouter au panier`, 3)
+
+	function savePanier(newPanier) {
+		localStorage.setItem(PANIER, JSON.stringify(newPanier));
+	}
+
+	function addToPanier(id, qtt, name = "Article") {
+		_ = getPanier();
+
+		alreadyExiste = _.find(e => e.articleId == id)
+
+		if (alreadyExiste) {
+			alreadyExiste.quantiter += qtt;
+
+		}else {
+			_.push({
+				articleId: id,
+				quantiter: qtt
+			})
+		}
+		savePanier(_);
+		newModal(` ${name}, <br> ajouter au panier`, 3)
+	}
+
+	function dropPanier() {
+		localStorage.setItem(PANIER, []);
+	}
 }
+

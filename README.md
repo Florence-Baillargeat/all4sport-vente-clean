@@ -38,3 +38,10 @@ localStorage.getItem("All4Sport-panier", maVariable)
 ```
 
 http://192.168.192.12:8000/
+
+
+
+
+
+
+

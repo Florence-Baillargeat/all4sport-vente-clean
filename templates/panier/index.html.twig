@@ -3,22 +3,41 @@
 {% block title %}Votre panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<link href="{{ asset('styles/panier.css') }}" rel="stylesheet" type="text/css"/>
 
-<div class="example-wrapper">
+<div class="panier-container">
 
-    <h1>Votre panier</h1>
-
-    <p>
-        Voici les produits que vous avez ajoutés à votre panier :
-    </p>
-
-    <a href="{{ path('app_produit') }}">Continuer vos achats</a>
     
+
+    <div class="panier-card">
+    <div class="list-panier" id="listPanier">
+   
+	<div class="loader-wrapper">
+  <div class="loader"></div>
 </div>
-<script src="{{asset('javascripts/PANIER.js')}}"> </script>
-<script src="{{asset('javascripts/accueil.js')}}" defer> </script>
+    </div>
+
+        
+    
+
+        <div class="panier-total">
+            Total : <strong id="totalPrice">0€</strong>
+        </div>
+
+        <div class="panier-actions">
+            <a href="{{ path('app_produit') }}" class="btn-outline">
+                Continuer vos achats
+            </a>
+            <button class="btn-gradient">
+                Passer commande
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{asset('javascripts/lsPanier.js')}}"></script>
+<script src="{{asset('javascripts/panier.js')}}" defer></script>
+
 {% endblock %}

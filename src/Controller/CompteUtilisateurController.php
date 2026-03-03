@@ -76,4 +76,8 @@ public function delete(
 
     return $this->redirectToRoute('app_login');
 }
+
+#[Route('/compte/utilisateur/modification', name: 'app_compte_modif', methods: ['POST'])]
+public function modif(){}
+
 }
