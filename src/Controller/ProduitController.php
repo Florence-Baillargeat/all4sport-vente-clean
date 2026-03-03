@@ -17,36 +17,39 @@ final class ProduitController extends AbstractController
     {
 
         $action = $request->query->get("action", null);
-        $maxPrice = ceil($produitRepository->getMaxPrice()[0]['prix']);
         $allCategories = $categorieRepository->getCategoriesForFilter();
+        
+        $maxPriceResult = $produitRepository->getMaxPrice();
+
+        if (!empty($maxPriceResult) && isset($maxPriceResult[0]["prix"])) {
+            $maxPrice = ceil($maxPriceResult[0]["prix"]);
+        } else {
+            $maxPrice = 0;
+        }
 
         if ($action == "filter") {
     
             $name = (string) trim($request->query->get("name", ""));
             $order = $request->query->get("order", "null");
             $min = (int) $request->query->get("min");
-            $max;
-
+            $max = $request->query->get("max");
             $categorie = $request->query->get("categorie");
             $categorie = $categorie ? (int) $categorie : null;
-    
-            if ($request->query->get("max")){
-                $max = (int) $request->query->get("max");
-            }else {
-                $max = $maxPrice;
-            }
         }else {
+
+            // echo "else";
 
             $name = "";
             $order = "null";
             $min = 0;
-            $max = $maxPrice;
             $categorie = null;
+            $max = $maxPrice;
+            
+            }
+            
+            
+            $produits = $produitRepository->getAllForHome($name, $order, $min, $max, $categorie);
 
-        }
-
-
-        $produits = $produitRepository->getAllForHome($name, $order, $min, $max, $categorie);
         return $this->render('produit/index.html.twig', [
             'produits' => $produits,
             'name' => $name,

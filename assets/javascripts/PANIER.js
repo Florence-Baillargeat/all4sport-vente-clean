@@ -20,3 +20,30 @@ const PANIER = "All4Sport-panier";
  * ⚠️ Les informations complètes du produit (nom, prix, image, etc.)
  * sont récupérées côté serveur à partir de l’articleId.
  */
+
+function getPanier() {
+	_ = localStorage.getItem(PANIER) || [];
+	return JSON.parse(_);
+}
+
+function savePanier(newPanier) {
+	localStorage.setItem(PANIER, JSON.stringify(newPanier));
+}
+
+function addToPanier(id, qtt, name = "Article") {
+	_ = getPanier();
+
+	alreadyExiste = _.find(e => e.articleId == id)
+
+	if (alreadyExiste) {
+		alreadyExiste.quantiter += qtt;
+
+	}else {
+		_.push({
+			articleId: id,
+			quantiter: qtt
+		})
+	}
+	savePanier(_);
+	newModal(` ${name} ajouter au panier`, 1)
+}

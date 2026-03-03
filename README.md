@@ -15,11 +15,11 @@
 |SecurityController  | Templates/security/login     | Connexion    | /login      | app_login        |
 |SecurityController  | ---------------------------- | Déconnexion  | /logout     | app_logout       |
 |ProduitController   |  Templates/Produit/show.html | 1 Produit    |/produit/{id}| app_produit_show |
-|                    |                              |              |             |                  |
-|                    |                              |              |             |                  |
-|                    |                              |              |             |                  |
-|                    |                              |              |             |                  |
-|                    |                              |              |             |                  |
+|CompteUtilisateurController|Templates/compte_utilisateur/index.html|Compte|/compte/utilisateur|app_compte_utilisateur|
+|RegistrationController|Templates/registration/register.html|Inscription|/register|app_register     |
+|CategorieController |  Templates/categorie/*.html      |Crud Categorie| /categorie  | app_categorie_*  |
+| PanierController   | Templates/panier/index.html.twig |  Panier  | /panier  |    app_panier  |
+|                    |                                  |              |             |                  |
 
 # Local Storage Name
 
@@ -36,3 +36,5 @@ let panier = JSON.parse(localStorage.getItem("All4Sport-panier")  || "[]");
 // Seter
 localStorage.getItem("All4Sport-panier", maVariable)
 ```
+
+http://192.168.192.12:8000/

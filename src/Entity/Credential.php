@@ -126,7 +126,7 @@ class Credential implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->user;
     }
 
-    public function setUserId(User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 

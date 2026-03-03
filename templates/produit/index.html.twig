@@ -175,7 +175,7 @@
                     {% if is_granted("ROLE_ADMIN") %}
                         <a class="add">Edit</a>
                     {% else %}
-                        <a class="add">Add</a>
+                        <a class="add" onclick="tryToAdd({{p.id}}, '{{p.libelle}}')">Add</a>
                     {% endif %}
                 </div>
             </div>

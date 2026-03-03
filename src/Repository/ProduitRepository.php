@@ -16,7 +16,19 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
-    public function getAllForHome(String $name, String $order, int $min, int $max, ?int $categorie = null) {
+    public function getAllForHome(String $name, String $order, int $min, int $max = 0, ?int $categorie = null) {
+
+        // echo "\n";
+        // echo "name : ", $name;
+        // echo "\n";
+        // echo "order  :", $order;
+        // echo "\n";
+        // echo "min  :", $min;
+        // echo "\n";
+        // echo "max  :", $max;
+        // echo "\n";
+        // echo "cat  :", $categorie;
+
 
         $sql = $this->createQueryBuilder('p')
                     ->select('p.id, p.libelle, p.prix, p.description, c.libelle as categorie, MIN(i.url) as url')
@@ -24,14 +36,18 @@ class ProduitRepository extends ServiceEntityRepository
                     ->leftJoin('p.image', "i")
                     ->where('p.libelle like :name')
                     ->andwhere('p.prix >= :min')
-                    ->andwhere('p.prix <= :max')
                     ->setParameter('name', "%$name%")
                     ->setParameter('min', $min)
-                    ->setParameter('max', $max)
                     ->groupBy('p.id')
                     ;
+                    
+                    
+        if ($max > 0 ) {
+                        $sql ->andwhere('p.prix <= :max')
+                        ->setParameter('max', $max);
+        }
 
-        if (strtoupper($categorie) != null) {
+        if (strtoupper($categorie) != null || strtoupper($categorie) != "") {
             $sql->andwhere("c.id = :cat")
                 ->setparameter("cat", $categorie);
         }
