@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre commande{% endblock %}
+
+{% block body %}
+<link href="{{ asset('styles/panier.css') }}" rel="stylesheet" type="text/css"/>
+
+<div class="panier-container">
+
+    
+
+    <div class="panier-card">
+    <div class="list-panier" id="listPanier">
+   
+	<div class="loader-wrapper">
+  <div class="loader"></div>
+</div>
+    </div>
+
+            <div class="panier-total">
+            Total : <strong id="totalPrice">0€</strong>
+        </div>
+
+
+    <div>
+    <a href="{{path('app_commande_client_payee')}}" class="btn-gradient" onclick="sendPanier()">
+                    Commande payée
+                </a>
+
+        
+
+</div>
+
+<script src="{{asset('javascripts/lsPanier.js')}}"></script>
+<script src="{{asset('javascripts/command_client.js')}}" defer></script>
+
+{% endblock %}

@@ -25,8 +25,6 @@ public function index(): Response
     $credential = $this->getUser();
 
     if (!$credential) {
-        // Normalement impossible grâce à denyAccessUnlessGranted
-        // mais on garde pour la robustesse
         throw $this->createAccessDeniedException('Vous devez être connecté.');
     }
 
@@ -77,7 +75,26 @@ public function delete(
     return $this->redirectToRoute('app_login');
 }
 
-#[Route('/compte/utilisateur/modification', name: 'app_compte_modif', methods: ['POST'])]
-public function modif(){}
+#[Route('/compte/utilisateur/modification', name: 'app_compte_modif', methods: ['GET', 'POST'])]
+public function update(EntityManagerInterface $entityManager, int $id, Request $request
+):Response{
+    $credential = $this->getUser();
 
+    if (!$credential) {
+        throw $this->createAccessDeniedException();
+    }
+
+    $user = $credential->getUser();
+
+    $form = $this->createForm(UserProfileType::class, $user);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vos informations ont été mises à jour.');
+        return $this->redirectToRoute('app_compte_utilisateur');
+    }
+
+}
 }

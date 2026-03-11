@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre commande{% endblock %}
+
+{% block body %}
+<link href="{{ asset('styles/panier.css') }}" rel="stylesheet" type="text/css"/>
+
+
+    <div>
+    <h2>succès!</h2>
+
+    <a href="{{ path('app_produit') }}" class="btn-gradient">
+                Retour à l'accueil
+            </a>
+        
+
+    </div>
+
+<script src="{{asset('javascripts/lsPanier.js')}}"></script>
+<script src="{{asset('javascripts/panier.js')}}" defer></script>
+
+{% endblock %}

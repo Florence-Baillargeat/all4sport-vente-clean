@@ -28,9 +28,16 @@
             <a href="{{ path('app_produit') }}" class="btn-outline">
                 Continuer vos achats
             </a>
-            <button class="btn-gradient">
-                Passer commande
-            </button>
+
+            {% if app.user %}
+                <a href="{{path('app_commande_client')}}" class="btn-gradient">
+                    Payer ma commande
+                </a>
+            {% else %}
+                <a href="{{path('app_register')}}" class="btn-gradient">
+                    Creer un compte
+                </a>
+            {% endif %}
         </div>
 
     </div>

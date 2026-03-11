@@ -1,0 +1,215 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+
+<style> 
+
+.content {
+    position: relative;
+}
+/* --- CONTENEUR --- */
+.table {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    font-family: sans-serif;
+}
+
+/* --- LIGNES --- */
+.table tr {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: 0.25s;
+}
+
+.table tr:hover {
+    background: rgba(203,213,255,0.2);
+    transform: scale(1.01);
+}
+
+/* --- HEADERS (th) --- */
+.table th {
+    width: 30%;
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+}
+
+/* --- CELLULES (td) --- */
+.table td {
+    padding: 15px 20px;
+    font-size: 14px;
+    color: #444;
+    vertical-align: top;
+}
+
+/* --- IMAGES --- */
+.table td img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-right: 10px;
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width:700px){
+    .table, .table tr, .table th, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 15px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        padding: 10px;
+    }
+
+    .table th {
+        background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+        padding: 10px;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .table td {
+        padding-left: 15px;
+        margin-bottom: 10px;
+    }
+
+    .table td img {
+        margin-bottom: 10px;
+    }
+}
+
+.edit.box {
+    position: absolute;
+
+    right: 10px;
+    top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    gap: 20px;
+}
+
+
+/* --- BOUTONS COMMUNS --- */
+.edit .button,
+.edit .btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #1f2937;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+
+    width : 100%;
+}
+
+/* --- BACK BUTTON --- */
+.edit .button.back {
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+}
+
+/* --- EDIT BUTTON --- */
+.edit .button.edit {
+    background: linear-gradient(135deg,#ffb3b3,#ff8c8c);
+}
+
+/* --- DELETE BUTTON --- */
+.edit .btn {
+    background: linear-gradient(135deg,#ff5959,#ff1e1e);
+    color: #fff;
+}
+
+.edit .button:hover,
+.edit .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58,123,213,0.2);
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width:700px){
+    .edit {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .edit .button,
+    .edit .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+
+<div class="content">
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ produit.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ produit.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ produit.prix }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ produit.reference }}</td>
+            </tr>
+            <tr>
+                <th>Fournisseur</th>
+                <td>{{ produit.fournisseur }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ produit.categorie.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+                <tr>
+                    <th>images</th>
+            {% for img in images %}
+                    <td><img src="{{img.url}}">
+</td>
+            {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+
+
+
+<div class="edit box"> 
+    <a href="{{ path('app_produit_crud_index') }}" class="button back">back to list</a>
+<a href="{{ path('app_produit_crud_edit', {'id': produit.id}) }}" class="button edit">edit</a>
+    {{ include('produit_crud/_delete_form.html.twig') }}
+</div>
+
+</div>
+
+
+{% endblock %}

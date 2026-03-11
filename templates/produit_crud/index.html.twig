@@ -1,0 +1,202 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+
+<style> 
+/* --- CONTENEUR GLOBAL --- */
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 50px;
+}
+
+/* --- BOUTON CREATE NEW --- */
+.content > a {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #1f2937;
+
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+    transition: all 0.25s ease;
+}
+
+.content > a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58,123,213,0.2);
+}
+
+/* --- TABLE PRODUITS --- */
+.table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 0 0 30px 0;
+
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+
+    border-radius: 15px;
+    overflow: hidden;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.table thead {
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+}
+
+.table th {
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    text-transform: uppercase;
+}
+
+/* CELLULES */
+.table td {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: #444;
+}
+
+/* LIGNES */
+.table tbody tr {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: 0.25s;
+}
+
+/* HOVER LIGNE */
+.table tbody tr:hover {
+    background: rgba(203,213,255,0.25);
+    transform: scale(1.01);
+}
+
+/* DERNIERE LIGNE */
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* --- BOUTONS DANS TABLEAU --- */
+.table td a {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 6px;
+    transition: 0.25s;
+}
+
+/* Show */
+.table td a {
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+    color: #1f2937;
+}
+.table td a:hover {
+    transform: translateY(-2px);
+}
+
+/* Edit */
+.table td a:last-child {
+    background: linear-gradient(135deg,#ffb3b3,#ff8c8c);
+    color: #1f2937;
+}
+
+.table td a:last-child:hover {
+    transform: translateY(-2px);
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width:900px){
+
+    .table thead{
+        display:none;
+    }
+
+    .table,
+    .table tbody,
+    .table tr,
+    .table td{
+        display:block;
+        width:100%;
+    }
+
+    .table tr{
+        margin-bottom:15px;
+        border-radius:12px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.08);
+        padding:10px;
+    }
+
+    .table td{
+        text-align:right;
+        padding-left:50%;
+        position:relative;
+    }
+
+    .table td::before{
+        content: attr(data-label);
+        position:absolute;
+        left:15px;
+        font-weight:600;
+        text-align:left;
+    }
+}   
+</style>
+
+<div class="content">
+
+
+    <a href="{{ path('app_produit_crud_new') }}">Create new</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Prix</th>
+                <th>Reference</th>
+                <th>Fournisseur</th>
+                <th>Categorie</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.libelle }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.reference }}</td>
+                <td>{{ produit.fournisseur }}</td>
+                <td>{{ produit.categorie.libelle }}</td>
+                <td>{{ produit.description }}</td>
+                <td>
+                    <a href="{{path('app_produit_image', {'id': produit.id})}}">Images</a>
+                    <a href="{{ path('app_produit_crud_show', {'id': produit.id}) }}">show</a>
+                    <a href="{{ path('app_produit_crud_edit', {'id': produit.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ </div>
+{% endblock %}

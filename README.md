@@ -18,7 +18,7 @@
 |CompteUtilisateurController|Templates/compte_utilisateur/index.html|Compte|/compte/utilisateur|app_compte_utilisateur|
 |RegistrationController|Templates/registration/register.html|Inscription|/register|app_register     |
 |CategorieController |  Templates/categorie/*.html      |Crud Categorie| /categorie  | app_categorie_*  |
-| PanierController   | Templates/panier/index.html.twig |  Panier  | /panier  |    app_panier  |
+|PanierController    | Templates/panier/index.html.twig |  Panier  | /panier  |    app_panier  |
 |                    |                                  |              |             |                  |
 
 # Local Storage Name
@@ -40,6 +40,9 @@ localStorage.getItem("All4Sport-panier", maVariable)
 http://192.168.192.12:8000/
 
 
+## Admin
+> melvinrenversez003@gmail.com
+> azerty
 
 
 

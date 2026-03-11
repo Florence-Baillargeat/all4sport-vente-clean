@@ -1,0 +1,183 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Produit{% endblock %}
+
+{% block body %}
+
+
+<style>
+
+.content {
+    position: relative;
+}
+/* --- CONTENEUR FORM --- */
+form[name="produit"] {
+    width: 90%;
+    max-width: 700px;
+    margin: 30px auto;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- CHAMPS DU FORMULAIRE --- */
+form[name="produit"] label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1f2937;
+    margin-bottom: 6px;
+    display: inline-block;
+}
+
+form[name="produit"] label.required::after {
+    content: "*";
+    color: #e53e3e;
+    margin-left: 4px;
+}
+
+/* --- INPUT ET TEXTAREA --- */
+form[name="produit"] input[type="text"],
+form[name="produit"] input[type="number"],
+form[name="produit"] textarea,
+form[name="produit"] select {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg,#cbd5ff,#a3bffa) border-box;
+    font-size: 14px;
+    color: #1f2937;
+    outline: none;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+form[name="produit"] input:focus,
+form[name="produit"] textarea:focus,
+form[name="produit"] select:focus {
+    border-color: #7f9cf5;
+    box-shadow: 0 4px 15px rgba(58,123,213,0.2);
+}
+
+/* --- TEXTAREA --- */
+form[name="produit"] textarea {
+    min-height: 80px;
+}
+
+/* --- BOUTON UPDATE --- */
+form[name="produit"] .btn {
+    align-self: flex-start;
+    padding: 10px 25px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg,#ffb3b3,#ff8c8c);
+    color: #1f2937;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+form[name="produit"] .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58,123,213,0.2);
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width:700px){
+    form[name="produit"] {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    form[name="produit"] .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.edit.box {
+    position: absolute;
+
+    right: 10px;
+    top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    gap: 20px;
+}
+
+
+/* --- BOUTONS COMMUNS --- */
+.edit .button,
+.edit .btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #1f2937;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+
+    width : 100%;
+}
+
+/* --- BACK BUTTON --- */
+.edit .button.back {
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+}
+
+/* --- EDIT BUTTON --- */
+.edit .button.edit {
+    background: linear-gradient(135deg,#ffb3b3,#ff8c8c);
+}
+
+/* --- DELETE BUTTON --- */
+.edit .btn {
+    background: linear-gradient(135deg,#ff5959,#ff1e1e);
+    color: #fff;
+}
+
+.edit .button:hover,
+.edit .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58,123,213,0.2);
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width:700px){
+    .edit {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .edit .button,
+    .edit .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+
+<div class="content">
+
+    {{ include('produit_crud/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <div class="edit box">
+        <a href="{{ path('app_produit_crud_index') }}" class="button back">back to list</a>
+        {{ include('produit_crud/_delete_form.html.twig') }}
+    </div>
+</div>
+
+{% endblock %}

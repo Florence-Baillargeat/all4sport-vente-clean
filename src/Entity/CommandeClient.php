@@ -27,10 +27,11 @@ class CommandeClient
     private ?StatutCommande $statutCommande_id = null;
 
     /**
-     * @var Collection<int, contenir>
+     * @var Collection<int, Contenir>
      */
-    #[ORM\OneToMany(targetEntity: contenir::class, mappedBy: 'commandeClient')]
-    private Collection $contenir;
+    #[ORM\OneToMany(targetEntity: Contenir::class, mappedBy: 'commandeClient')]
+    private Collection $contenir; 
+           
 
     public function __construct()
     {
@@ -79,14 +80,14 @@ class CommandeClient
     }
 
     /**
-     * @return Collection<int, contenir>
+     * @return Collection<int, Contenir>
      */
     public function getContenir(): Collection
     {
         return $this->contenir;
     }
 
-    public function addContenir(contenir $contenir): static
+    public function addContenir(Contenir $contenir): static
     {
         if (!$this->contenir->contains($contenir)) {
             $this->contenir->add($contenir);
@@ -96,7 +97,7 @@ class CommandeClient
         return $this;
     }
 
-    public function removeContenir(contenir $contenir): static
+    public function removeContenir(Contenir $contenir): static
     {
         if ($this->contenir->removeElement($contenir)) {
             // set the owning side to null (unless already changed)

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+
+{% for image in images %}
+	<img src="{{ image.url }}" width="280px">
+{% endfor %}
+
+{% endblock %}
