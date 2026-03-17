@@ -13,6 +13,9 @@ use App\Entity\Credential;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\UserUpdateType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 final class CompteUtilisateurController extends AbstractController
 {
@@ -76,25 +79,110 @@ public function delete(
 }
 
 #[Route('/compte/utilisateur/modification', name: 'app_compte_modif', methods: ['GET', 'POST'])]
-public function update(EntityManagerInterface $entityManager, int $id, Request $request
-):Response{
+public function update(
+    Request $request,
+    EntityManagerInterface $em,
+    UserPasswordHasherInterface $passwordHasher
+): Response {
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+    /** @var Credential $credential */
     $credential = $this->getUser();
 
-    if (!$credential) {
-        throw $this->createAccessDeniedException();
-    }
-
-    $user = $credential->getUser();
-
-    $form = $this->createForm(UserProfileType::class, $user);
+    $form = $this->createForm(UserUpdateType::class, $credential);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        $entityManager->flush();
+        $changed = false;
 
-        $this->addFlash('success', 'Vos informations ont été mises à jour.');
+        // Email modifié ?
+/** @var Credential $credential */
+$credential = $this->getUser();
+$user = $credential->getUser(); // entité User liée
+
+$form = $this->createForm(UserUpdateType::class, $credential);
+$form->handleRequest($request);
+
+if ($form->isSubmitted() && $form->isValid()) {
+    $changed = false;
+
+    // Email modifié ?
+    $email = $form->get('email')->getData();
+    if ($email !== null && $email !== '') {
+        $credential->setEmail($email);
+        $changed = true;
+    }
+
+    // Mot de passe modifié ?
+    $plainPassword = $form->get('plainPassword')->getData();
+    if ($plainPassword !== null && $plainPassword !== '') {
+        $credential->setPassword(
+            $passwordHasher->hashPassword($credential, $plainPassword)
+        );
+        $changed = true;
+    }
+
+    // Nom modifié ?
+    $nom = $form->get('nom')->getData();
+    if ($nom !== null && $nom !== '') {
+        $user->setNom($nom);
+        $changed = true;
+    }
+
+    // Prénom modifié ?
+    $prenom = $form->get('prenom')->getData();
+    if ($prenom !== null && $prenom !== '') {
+        $user->setPrenom($prenom);
+        $changed = true;
+    }
+
+    // Téléphone modifié ?
+    $tel = $form->get('tel')->getData();
+    if ($tel !== null && $tel !== '') {
+        $user->setTel($tel);
+        $changed = true;
+    }
+
+    // Sport modifié ?
+    $sport = $form->get('sport')->getData();
+    if ($sport !== null && $sport !== '') {
+        $user->setSport($sport);
+        $changed = true;
+    }
+
+    if ($changed) {
+        $entityManager->flush();
+    }
+}
+
+        // Le reste (profil) est automatiquement géré par Symfony grâce à property_path
+        // → flush suffit si quelque chose a changé
+        if ($changed || $form->get('nom')->isSubmitted()) {
+            $em->flush();
+            $this->addFlash('success', 'Modifications enregistrées.');
+        } else {
+            $this->addFlash('info', 'Aucune modification n\'a été effectuée.');
+        }
+
         return $this->redirectToRoute('app_compte_utilisateur');
     }
 
+    return $this->render('compte_utilisateur/update_user.html.twig', [
+        'form' => $form->createView(),
+    ]);
 }
+
+
+    #[Route('/compte/utilisateur/commandes', name: 'app_compte_commandes')]
+        public function commands(){
+            $commandes = $this->getUser()->getUser()->getCommandeClients()->toArray();
+            usort($commandes, function($a, $b) {
+                return $b->getDateCommande() <=> $a->getDateCommande();
+            });
+        return $this->render('compte_utilisateur/commandes.html.twig', [
+            'commandes' => $commandes
+        ]);
+
+        }
+    
 }

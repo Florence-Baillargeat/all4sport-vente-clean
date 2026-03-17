@@ -90,6 +90,7 @@ final class ProduitCrudController extends AbstractController
 
         return $this->render('produit_crud/images.html.twig', [
             'images' => $Result,
+            'produitId' => $id
         ]);
     }
 }

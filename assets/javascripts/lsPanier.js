@@ -21,34 +21,40 @@
 	let PANIER = "All4Sport-panier";
 
 	function getPanier() {
-		_ = localStorage.getItem(PANIER) || "[]";
+		console.log("*[LSPANIER]* getPanier appelé");
+		let _ = localStorage.getItem(PANIER) || "[]";
 		return JSON.parse(_);
 	}
 
 	function savePanier(newPanier) {
+		console.log("*[LSPANIER]* savePanier appelé", newPanier);
 		localStorage.setItem(PANIER, JSON.stringify(newPanier));
 	}
 
 	function addToPanier(id, qtt, name = "Article") {
-		_ = getPanier();
+		console.log("*[LSPANIER]* addToPanier appelé", { id, qtt, name });
 
-		alreadyExiste = _.find(e => e.articleId == id)
+		let _ = getPanier();
+
+		let alreadyExiste = _.find(e => e.articleId == id);
 
 		if (alreadyExiste) {
+			console.log("*[LSPANIER]* Produit déjà existant, incrémentation");
 			alreadyExiste.quantiter += qtt;
-
-		}else {
+		} else {
+			console.log("*[LSPANIER]* Nouveau produit ajouté");
 			_.push({
 				articleId: id,
 				quantiter: qtt
-			})
+			});
 		}
+
 		savePanier(_);
-		newModal(` ${name}, <br> ajouter au panier`, 3)
+		newModal(` ${name}, <br> ajouter au panier`, 3);
 	}
 
 	function dropPanier() {
+		console.log("*[LSPANIER]* dropPanier appelé");
 		localStorage.setItem(PANIER, []);
 	}
 }
-

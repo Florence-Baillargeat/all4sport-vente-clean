@@ -140,7 +140,6 @@
         box-shadow:0 5px 15px rgba(0,0,0,0.08);
         padding:10px;
     }
-
     .table td{
         text-align:right;
         padding-left:50%;
@@ -155,6 +154,22 @@
         text-align:left;
     }
 }   
+
+
+table tbody tr {
+    animation: drop 0.7s ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes drop {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
 </style>
 
 <div class="content">
@@ -177,7 +192,10 @@
         </thead>
         <tbody>
         {% for produit in produits %}
-            <tr>
+            <tr style="
+                transform: translateY( {{ -500 - ( 60 * loop.index) }}px);
+                animation-delay: {{0.05 * loop.index}}s;
+            ">
                 <td>{{ produit.id }}</td>
                 <td>{{ produit.libelle }}</td>
                 <td>{{ produit.prix }}</td>

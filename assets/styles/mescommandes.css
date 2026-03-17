@@ -1,0 +1,120 @@
+/* ===== Container global ===== */
+.commandes-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* ===== Carte commande ===== */
+.commande-card {
+    background: #f9f9f9;
+    border-radius: 16px;
+    padding: 20px 25px;
+    margin-bottom: 25px;
+
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.08);
+
+    transition: 0.3s;
+}
+
+.commande-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Header commande ===== */
+.commande-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.commande-id {
+    font-size: 20px;
+    font-weight: bold;
+    color: #12131a;
+}
+
+.commande-date {
+    font-size: 14px;
+    color: #666;
+}
+
+/* ===== Statut ===== */
+.commande-statut {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    background: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    color: #12131a;
+}
+
+/* ===== Produits ===== */
+.commande-produits {
+    margin-top: 15px;
+}
+
+.commande-produits h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* ===== Liste produits ===== */
+.commande-produits ul {
+    list-style: none;
+}
+
+.commande-produits li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px 12px;
+    margin-bottom: 8px;
+
+    border-radius: 10px;
+    background: #ffffff;
+
+    border: 1px solid #eee;
+
+    transition: 0.2s;
+}
+
+.commande-produits li:hover {
+    background: #f2f4ff;
+}
+
+/* ===== Nom produit ===== */
+.produit-nom {
+    font-weight: 500;
+}
+
+/* ===== Infos produit ===== */
+.produit-infos {
+    font-size: 14px;
+    color: #555;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+
+    .commande-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .commande-produits li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}

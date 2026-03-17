@@ -155,3 +155,77 @@
 .list-panier {
     position: relative;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* En-tête */
+thead {
+    background: #3498db;
+    color: white;
+}
+
+thead th {
+    padding: 12px;
+    text-align: left;
+}
+
+/* Lignes */
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Alternance des lignes */
+tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Effet hover */
+tbody tr:hover {
+    background: #f1f7ff;
+}
+
+/* Bordures */
+th, td {
+    border-left: 1px solid #eee;
+}
+
+th:first-child, td:first-child {
+    border-left: none;
+}
+
+tfoot {
+    background: #2c3e50;
+    color: white;
+    font-weight: bold;
+}
+
+tfoot td {
+    padding: 12px;
+    border-top: 2px solid #34495e;
+}
+
+/* Alignement du total */
+tfoot td:last-child {
+    text-align: right;
+    font-size: 18px;
+}
+
+/* Ligne du total un peu plus visible */
+tfoot tr {
+    background: #2c3e50;
+}
+
+/* Petit effet */
+tfoot tr:hover {
+    background: #34495e;
+}

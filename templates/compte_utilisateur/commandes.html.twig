@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos commandes{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ asset('styles/mescommandes.css') }}">
+
+<div class="commandes-container">
+
+{% for commande in commandes %}
+    <div class="commande-card">
+
+        <div class="commande-header">
+            <span class="commande-id">Commande #{{ commande.id }}</span>
+            <span class="commande-date">Date de commande : {{ commande.dateCommande|date('d/m/Y') }}</span>
+        </div>
+
+        <span class="commande-statut">
+            Etat de la commande : {{ commande.statutCommandeId.libelle }}
+        </span>
+
+        <div class="commande-produits">
+            <h4>Produits :</h4>
+            <ul>
+                {% for item in commande.contenir %}
+                    <li>
+                        <span class="produit-nom">
+                            {{ item.produit.libelle }}
+                        </span>
+                        <span class="produit-infos">
+                            x{{ item.quantite }} • {{ item.PrixUnitaire }} €
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+{% endfor %}
+
+
+{% endblock %}

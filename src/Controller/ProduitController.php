@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Image;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class ProduitController extends AbstractController
 {
@@ -71,5 +73,18 @@ final class ProduitController extends AbstractController
             'produit' => $produit,
             'images' => $images,
         ]);
+    }
+
+    #[Route('/produit/addImage/{id}', name: 'app_produit_add_image')]
+    public function addImage(int $id, Request $request, ProduitRepository $produitRepository, EntityManagerInterface $entityManager): Response
+    {
+        $produit = $produitRepository->find($id);
+        $imageUrl = $request->request->get("image");
+        $image = new Image();
+        $image->setUrl($imageUrl);
+        $image->setProduit($produit);
+        $entityManager->persist($image);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_produit_crud_show', ['id' => $id]);
     }
 }

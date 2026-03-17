@@ -8,24 +8,58 @@
 <div class="panier-container">
 
     
+    <h2>Récapitulatif de votre commande</h2>
 
     <div class="panier-card">
-    <div class="list-panier" id="listPanier">
-   
-	<div class="loader-wrapper">
-  <div class="loader"></div>
-</div>
-    </div>
-
-            <div class="panier-total">
-            Total : <strong id="totalPrice">0€</strong>
-        </div>
 
 
-    <div>
-    <a href="{{path('app_commande_client_payee')}}" class="btn-gradient" onclick="sendPanier()">
-                    Commande payée
-                </a>
+
+        <table>
+
+            <thead>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                
+            </thead>
+            
+            <tbody id="panierFinal"></tbody>
+
+
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Total</td>
+                    <td id="totalPanier"></td>
+                </tr>
+            </tfoot>
+
+        </table>
+        
+
+        <h2>Méthode de paiment</h2>
+        <div class="payment-methods">
+            <div class="payment-option">
+                <input type="radio" id="carte" name="payment" value="carte" checked>
+                <label for="carte">Carte bancaire</label>
+            </div>
+            <div class="payment-option">
+                <input type="radio" id="paypal" name="payment" value="paypal">
+                <label for="paypal">PayPal</label>
+            </div>
+            <div class="payment-option">
+                <input type="radio" id="applepay" name="payment" value="applepay">
+                <label for="applepay">Apple Pay</label>
+            </div>
+
+            <br>
+
+
+
+
+
+
+    <a href="{{path('app_commande_client_payee')}}" class="btn-gradient" onclick="sendPanier()">Commande payée</a>
 
         
 

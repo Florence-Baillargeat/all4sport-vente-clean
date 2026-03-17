@@ -31,6 +31,9 @@ class User
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $dateNaissance = null;
 
+    #[ORM\OneToMany(targetEntity: CommandeClient::class, mappedBy: 'user_id')]
+    private Collection $commandeClients; 
+
     /**
      * @var Collection<int, Sport>
      */
@@ -40,6 +43,7 @@ class User
     public function __construct()
     {
         $this->sport_id = new ArrayCollection();
+        $this->commandeClients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,4 +134,38 @@ class User
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, CommandeClient>
+     */
+    public function getCommandeClients(): Collection
+    {
+        return $this->commandeClients;
+    }
+
+    public function addCommandeClient(CommandeClient $commandeClient): static
+    {
+        if (!$this->commandeClients->contains($commandeClient)) {
+            $this->commandeClients->add($commandeClient);
+            $commandeClient->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeClient(CommandeClient $commandeClient): static
+    {
+        if ($this->commandeClients->removeElement($commandeClient)) {
+            // set the owning side to null (unless already changed)
+            if ($commandeClient->getUserId() === $this) {
+                $commandeClient->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
+
+    
 }

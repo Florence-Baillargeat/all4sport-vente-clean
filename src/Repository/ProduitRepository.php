@@ -93,7 +93,7 @@ class ProduitRepository extends ServiceEntityRepository
             return ["no id"];
         }
         $sql = $this->createQueryBuilder("p")
-                    ->select("i.url")
+                    ->select("i.url, i.id")
                     ->leftJoin('p.image', "i")
                     ->where('p.id = :id')
                     ->setParameter('id', $id);

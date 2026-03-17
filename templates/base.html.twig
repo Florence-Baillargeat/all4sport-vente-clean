@@ -27,7 +27,7 @@
             <a class="nav-link" href={{path('app_categorie_index')}}>Catégories</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Clients</a>
+            <a class="nav-link" href={{path('app_commande_client_admin')}}>Clients</a>
         </li>
             <li class="nav-item">
             <a class="nav-link" href={{path('app_produit_crud_index')}}>Produits</a>
@@ -39,9 +39,12 @@
 
 
         <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_compte_commandes') }}">Mes Commandes</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ path('app_compte_utilisateur') }}">Compte</a>
-            </li>
-            <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href={{path('app_panier')}}>Panier</a>
         </li>
 
@@ -72,13 +75,12 @@
         {% block body %}{% endblock %}
     </body>
 </html>
-<div class=""> </div>
 
 
 
 <div id="modalDiv" class="modal mDOWN"> 
     <span class="modal-content">
-    Article Ajouter a panier
+    Article ajouté au panier !
     </span>
 </div>
 

@@ -5,9 +5,165 @@
 {% block body %}
     <h1>Edit Categorie</h1>
 
+
+<style>
+.content {
+    position: relative;
+    width: 100%;
+    margin: 30px auto;
+    font-family: sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- FORMULAIRE --- */
+form[name="categorie"] {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 45%;
+}
+
+/* --- CHAMPS --- */
+form[name="categorie"] div {
+    display: flex;
+    flex-direction: column;
+}
+
+form[name="categorie"] label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1f2937;
+}
+
+form[name="categorie"] input[type="text"],
+form[name="categorie"] select {
+    padding: 12px 15px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.9);
+    transition: all 0.25s ease;
+}
+
+form[name="categorie"] input[type="text"]:focus,
+form[name="categorie"] select:focus {
+    outline: none;
+    border-color: #a3bffa;
+    box-shadow: 0 0 10px rgba(163,191,250,0.3);
+}
+
+/* --- MULTIPLE SELECT --- */
+form[name="categorie"] select[multiple] {
+    height: 150px;
+    overflow-y: auto;
+}
+
+/* --- BOUTON --- */
+form[name="categorie"] .btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    border: none;
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+form[name="categorie"] .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58,123,213,0.2);
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width:700px){
+    form[name="categorie"] {
+        padding: 15px;
+    }
+    
+    form[name="categorie"] div {
+        flex-direction: column;
+    }
+    
+    form[name="categorie"] select[multiple] {
+        height: 120px;
+    }
+}
+
+.edit.box {
+    position: absolute;
+
+    right: 10px;
+    top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    gap: 20px;
+}
+
+
+/* --- BOUTONS COMMUNS --- */
+.edit .button,
+.edit .btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #1f2937;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+
+    width : 100%;
+}
+
+/* --- BACK BUTTON --- */
+.edit .button.back {
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+}
+
+/* --- EDIT BUTTON --- */
+.edit .button.edit {
+    background: linear-gradient(135deg,#ffb3b3,#ff8c8c);
+}
+
+/* --- DELETE BUTTON --- */
+.edit .btn {
+    background: linear-gradient(135deg,#ff5959,#ff1e1e);
+    color: #fff;
+}
+
+.edit .button:hover,
+.edit .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58,123,213,0.2);
+}
+</style>
+
+
+<div class="content">
+
     {{ include('categorie/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
-
+    <div class="edit box"> 
+    <a href="{{ path('app_categorie_index') }}" class="button back">back to list</a>
     {{ include('categorie/_delete_form.html.twig') }}
+</div>
+
+
+
+
+    </div>
 {% endblock %}

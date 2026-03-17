@@ -12,9 +12,6 @@ function sendPanier() {
 
 	.then(response => response.json())
 	.then(data => {
-		console.log("response")
-		console.log(response);
-		console.log(data)
 		if (data.status == "success") {
 			newModal("Commande passée avec succès !", 3);
 			dropPanier();
@@ -26,7 +23,7 @@ function sendPanier() {
 
 }
 
-	const panierList= document.getElementById("listPanier");
+const panierList= document.getElementById("listPanier");
 const totalPrice = document.getElementById("totalPrice");
 
 
@@ -43,8 +40,9 @@ function getInfoPanier() {
 	.then(response => response.json())
 	.then(data => {
 		
+		const panierFinal = document.getElementById("panierFinal");
 
-			panierList.innerHTML = "";
+		console.log(panierFinal);
 
 		let total = 0;
 		data.forEach(product => {
@@ -52,27 +50,19 @@ function getInfoPanier() {
 			console.log(product);
 
 			const element = `
-			
-				<div class="panier-item" data-price="10">
-						<span class="nom"> ${product.libelle} </span>
-						<div class="quantite-box">
-							<button class="qty-btn minus" onclick="updateQtt( ${product.id}, 'minus' )">−</button>
-							<span class="quantite" id="qtt_${product.id}"> ${product.qtt} </span>
-							<button class="qty-btn plus" onclick="updateQtt( ${product.id}, 'plus' )">+</button>
-						</div>
-
-						<span class="prix" id="prix_${product.id}"> ${product.prix} €</span>
-				</div>
-			
-			
+				<tr>
+            		<td>${product.libelle} </td>
+            		<td> ${product.qtt}</td>
+            		<td> ${product.prix} €</td>
+        		</tr>
 			`;
 
-			panierList.innerHTML += element;
+			panierFinal.innerHTML += element;
 			total += product.prix * product.qtt;
 
 		});
 
-		totalPrice.innerHTML = total.toFixed(2);
+		document.getElementById("totalPanier").innerHTML = total.toFixed(2);
 
 	
 	})

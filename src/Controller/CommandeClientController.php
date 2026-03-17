@@ -54,4 +54,12 @@ final class CommandeClientController extends AbstractController
         ]);
     }
 
+    #[Route('/commande/client/admin', name: 'app_commande_client_admin')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function admin(){
+        return $this->render('commande_client/admin.html.twig', [
+            'controller_name' => 'CommandeClientController',
+        ]);
+    }
+
 }

@@ -193,10 +193,12 @@
             </tr>
                 <tr>
                     <th>images</th>
-            {% for img in images %}
-                    <td><img src="{{img.url}}">
-</td>
+                    <td><img src="{{images[0].url}}"></td>
+                    <td>
+            {% for img in images[1:] %}
+                    <img src="{{img.url}}">
             {% endfor %}
+                    </td>
                 </tr>
         </tbody>
     </table>
@@ -206,6 +208,7 @@
 <div class="edit box"> 
     <a href="{{ path('app_produit_crud_index') }}" class="button back">back to list</a>
 <a href="{{ path('app_produit_crud_edit', {'id': produit.id}) }}" class="button edit">edit</a>
+    <a href="{{path('app_produit_image', {'id': produit.id})}}" class="button edit">Images</a>
     {{ include('produit_crud/_delete_form.html.twig') }}
 </div>
 
