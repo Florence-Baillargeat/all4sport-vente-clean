@@ -157,12 +157,15 @@
 
 
 table tbody tr {
-    animation: drop 0.7s ease-out;
+    animation: drop 1.3s ease-out;
     animation-fill-mode: forwards;
 }
 
 @keyframes drop {
     0% {
+        opacity: 0;
+    }
+    50% {
         opacity: 0;
     }
     100% {
@@ -193,7 +196,7 @@ table tbody tr {
         <tbody>
         {% for produit in produits %}
             <tr style="
-                transform: translateY( {{ -500 - ( 60 * loop.index) }}px);
+                transform: translateY( {{ -50 - ( 60 * loop.index) }}px);
                 animation-delay: {{0.05 * loop.index}}s;
             ">
                 <td>{{ produit.id }}</td>

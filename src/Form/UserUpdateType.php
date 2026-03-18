@@ -25,6 +25,7 @@ class UserUpdateType extends AbstractType
                 'label'    => 'Adresse email',
                 'required' => false,
                 'attr'     => ['placeholder' => 'Laissez vide pour ne pas changer'],
+                'empty_data' => '',
             ])
 
             ->add('plainPassword', RepeatedType::class, [
@@ -48,6 +49,7 @@ class UserUpdateType extends AbstractType
                         'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
                     ]),
                 ],
+                'empty_data' => '',
             ])
 
             // ── Champs de User (via property_path) ──
@@ -55,24 +57,28 @@ class UserUpdateType extends AbstractType
                 'property_path' => 'user.nom',
                 'required'      => false,
                 'label'         => 'Nom',
+                'empty_data' => '',
             ])
 
             ->add('prenom', TextType::class, [
                 'property_path' => 'user.prenom',
                 'required'      => false,
                 'label'         => 'Prénom',
+                'empty_data' => '',
             ])
 
             ->add('adresse', TextType::class, [
                 'property_path' => 'user.adresse',
                 'required'      => false,
                 'label'         => 'Adresse',
+                'empty_data' => '',
             ])
 
             ->add('telephone', TelType::class, [
                 'property_path' => 'user.telephone',
                 'required'      => false,
                 'label'         => 'Téléphone',
+                'empty_data' => '',
             ])
 
             ->add('dateNaissance', DateType::class, [
@@ -81,6 +87,7 @@ class UserUpdateType extends AbstractType
                 'html5'         => true,
                 'required'      => false,
                 'label'         => 'Date de naissance',
+                'empty_data' => '',
             ])
 
             ->add('sports', EntityType::class, [
@@ -91,6 +98,7 @@ class UserUpdateType extends AbstractType
                 'expanded'      => true,                  // checkboxes
                 'required'      => false,
                 'label'         => 'Sports pratiqués',
+                'empty_data' => '',
             ])
         ;
     }

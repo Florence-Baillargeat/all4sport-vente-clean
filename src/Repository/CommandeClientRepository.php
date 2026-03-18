@@ -40,5 +40,12 @@ class CommandeClientRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    //public function findCommandesByUserId(int $userId):
+
+    public function getAllCommandes(){
+        return $this->createQueryBuilder('c')
+            ->orderby('c.dateCommande', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

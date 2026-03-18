@@ -11,6 +11,8 @@ use App\Entity\Contenir;
 use App\Repository\StatutCommandeRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CommandeClientRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 final class CommandeClientController extends AbstractController
 {
@@ -54,11 +56,16 @@ final class CommandeClientController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/client/admin', name: 'app_commande_client_admin')]
     #[IsGranted('ROLE_ADMIN')]
-    public function admin(){
+    #[Route('/commande/client/admin', name: 'app_commande_client_admin')]
+    public function admin(CommandeClientRepository $CommandeClientRepository,
+    StatutCommandeRepository $statutCommandeRepository): Response{
+        $commandes = $CommandeClientRepository->getAllCommandes(); 
+        $allStatus = $statutCommandeRepository->findAll();
+
         return $this->render('commande_client/admin.html.twig', [
-            'controller_name' => 'CommandeClientController',
+            'commandes' => $commandes,
+            'statutsCommande' => $allStatus
         ]);
     }
 

@@ -88,6 +88,11 @@ public function update(
 
     /** @var Credential $credential */
     $credential = $this->getUser();
+    $user = $credential->getUser();
+
+    if (!$user) {
+        throw new \LogicException('Credential sans entité User associée');
+    }
 
     $form = $this->createForm(UserUpdateType::class, $credential);
     $form->handleRequest($request);
@@ -95,69 +100,58 @@ public function update(
     if ($form->isSubmitted() && $form->isValid()) {
         $changed = false;
 
-        // Email modifié ?
-/** @var Credential $credential */
-$credential = $this->getUser();
-$user = $credential->getUser(); // entité User liée
+        // ── Credential ──
+        $email = $form->get('email')->getData();
+        if ($email !== null && $email !== '') {
+            $credential->setEmail($email);
+            $changed = true;
+        }
 
-$form = $this->createForm(UserUpdateType::class, $credential);
-$form->handleRequest($request);
+        $plainPassword = $form->get('plainPassword')->getData();
+        if ($plainPassword !== null && $plainPassword !== '') {
+            $credential->setPassword(
+                $passwordHasher->hashPassword($credential, $plainPassword)
+            );
+            $changed = true;
+        }
 
-if ($form->isSubmitted() && $form->isValid()) {
-    $changed = false;
+        // ── User ──
+$fields = ['nom', 'prenom', 'adresse', 'telephone'];
+foreach ($fields as $field) {
+    $value = $form->get($field)->getData();
 
-    // Email modifié ?
-    $email = $form->get('email')->getData();
-    if ($email !== null && $email !== '') {
-        $credential->setEmail($email);
+    // On ignore tout ce qui est null, '', ou espaces vides
+    if (!empty(trim((string)$value))) {
+        $setter = 'set' . ucfirst($field);
+        $user->$setter($value);
         $changed = true;
-    }
-
-    // Mot de passe modifié ?
-    $plainPassword = $form->get('plainPassword')->getData();
-    if ($plainPassword !== null && $plainPassword !== '') {
-        $credential->setPassword(
-            $passwordHasher->hashPassword($credential, $plainPassword)
-        );
-        $changed = true;
-    }
-
-    // Nom modifié ?
-    $nom = $form->get('nom')->getData();
-    if ($nom !== null && $nom !== '') {
-        $user->setNom($nom);
-        $changed = true;
-    }
-
-    // Prénom modifié ?
-    $prenom = $form->get('prenom')->getData();
-    if ($prenom !== null && $prenom !== '') {
-        $user->setPrenom($prenom);
-        $changed = true;
-    }
-
-    // Téléphone modifié ?
-    $tel = $form->get('tel')->getData();
-    if ($tel !== null && $tel !== '') {
-        $user->setTel($tel);
-        $changed = true;
-    }
-
-    // Sport modifié ?
-    $sport = $form->get('sport')->getData();
-    if ($sport !== null && $sport !== '') {
-        $user->setSport($sport);
-        $changed = true;
-    }
-
-    if ($changed) {
-        $entityManager->flush();
     }
 }
+        // ── Sports (ManyToMany) ──
+        $sportsForm = $form->get('sports')->getData();
+        if ($sportsForm !== null) {
+            $currentSportsCollection = $user->getSportId(); // PersistentCollection
+            $currentSportsArray = $currentSportsCollection->toArray();
 
-        // Le reste (profil) est automatiquement géré par Symfony grâce à property_path
-        // → flush suffit si quelque chose a changé
-        if ($changed || $form->get('nom')->isSubmitted()) {
+            // Supprimer les sports décochés
+            foreach ($currentSportsArray as $sport) {
+                if (!in_array($sport, is_array($sportsForm) ? $sportsForm : $sportsForm->toArray(), true)) {
+                    $user->removeSport($sport);
+                    $changed = true;
+                }
+            }
+
+            // Ajouter les nouveaux sports cochés
+            foreach ($sportsForm as $sport) {
+                if (!$currentSportsCollection->contains($sport)) {
+                    $user->addSport($sport);
+                    $changed = true;
+                }
+            }
+        }
+
+        // ── Enregistrer uniquement si quelque chose a changé ──
+        if ($changed) {
             $em->flush();
             $this->addFlash('success', 'Modifications enregistrées.');
         } else {
@@ -180,7 +174,7 @@ if ($form->isSubmitted() && $form->isValid()) {
                 return $b->getDateCommande() <=> $a->getDateCommande();
             });
         return $this->render('compte_utilisateur/commandes.html.twig', [
-            'commandes' => $commandes
+            'commandes' => $commandes,
         ]);
 
         }
