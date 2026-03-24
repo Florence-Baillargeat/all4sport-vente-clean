@@ -40,4 +40,29 @@ class EntrepotRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+
+    public function getProductStock(int $idProduit)
+    {
+        $query = $this->createQueryBuilder('po')
+            ->select('po.id, po.nom, po.web, COALESCE(en.quantite, 0) AS quantite')
+            ->leftJoin('po.entreposer', 'en', 'WITH', 'en.produit = :idProduit')
+            ->setParameter('idProduit', $idProduit);
+
+        return $query->getQuery()->getResult();
+    }
+
+//     SELECT 
+//     po.id, 
+//     po.nom, 
+//     po.adresse, 
+//     po.web, 
+//     COALESCE(en.quantite, 0) AS quantite
+// FROM entrepot po
+// LEFT JOIN entreposer en 
+//     ON en.entrepot_id = po.id 
+//     AND en.produit_id = 73;
+
+    
 }

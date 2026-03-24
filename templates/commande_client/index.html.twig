@@ -54,12 +54,33 @@
 
             <br>
 
+        <h2>Mode de livraison</h2>
+        <div class="mode-livraison">
+            <div class="livraison-option">
+                <input type="radio" id="domicile" name="livraison" value="domicile" checked>
+                <label for="domicile">Livraison à domicile</label>
+            </div>
+            <div class="livraison-option">
+                <input type="radio" id="point_relais" name="livraison" value="point_relais">
+                <label for="point_relais">Livraison en point relais</label>
+            </div>
+            <div class="livraison-option">
+                <input type="radio" id="express" name="livraison" value="express">
+                <label for="express">Livraison express</label>
+            </div>
+            <div class="livraison-option">
+                <input type="radio" id="rdv" name="livraison" value="rdv">
+                <label for="rdv">Livraison sur rendez-vous</label>
+            </div>
+            <div class="livraison-option">
+                <input type="radio" id="clik_collect" name="livraison" value="click_collect">
+                <label for="clik_collect">Retrait en magasin (click and collect)</label>
+            </div>
 
+            <br>
 
-
-
-
-    <a href="{{path('app_commande_client_payee')}}" class="btn-gradient" onclick="sendPanier()">Commande payée</a>
+    <button  class="btn-gradient" onclick="sendPanier()">Commande payée</button>
+    
 
         
 

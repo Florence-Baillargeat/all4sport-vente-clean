@@ -41,11 +41,32 @@ class CommandeClientRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function getAllCommandes(){
-        return $this->createQueryBuilder('c')
-            ->orderby('c.dateCommande', 'DESC')
-            ->getQuery()
-            ->getResult()
-        ;
+    public function getAllCommandes(int $status = null, String $search = null){
+        $query = $this->createQueryBuilder('c')
+            ->join('c.user_id', 'u')
+            ->join('c.statutCommande_id', 's');
+
+
+        if($search){
+            $query->andWhere('c.id LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+            
+            $query->orWhere('c.dateCommande LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+
+            $query->orWhere('concat(u.prenom, u.nom) LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+
+        }
+
+
+        if($status !== null){
+            $query->andWhere('s.id = :status')
+                ->setParameter('status', $status);
+        }
+
+        $query->orderby('c.dateCommande', 'DESC');
+
+        return $query->getQuery()->getResult();
     }
 }

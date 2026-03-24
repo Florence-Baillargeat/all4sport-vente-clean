@@ -10,173 +10,167 @@ use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\CredentialRepository;
 use App\Entity\Credential;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserUpdateType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
 final class CompteUtilisateurController extends AbstractController
 {
-#[Route('/compte/utilisateur', name: 'app_compte_utilisateur', methods: ['GET'])]
-public function index(): Response
-{
-    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    #[Route('/compte/utilisateur', name: 'app_compte_utilisateur', methods: ['GET'])]
+    public function index(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-    /** @var Credential|null $credential */
-    $credential = $this->getUser();
+        /** @var Credential|null $credential */
+        $credential = $this->getUser();
 
-    if (!$credential) {
-        throw $this->createAccessDeniedException('Vous devez être connecté.');
-    }
-
-    $utilisateur = $credential->getUser();
-
-    if (!$utilisateur) {
-        throw new \LogicException('Credential sans entité User associée');
-    }
-
-    return $this->render('compte_utilisateur/index.html.twig', [
-        'credential'  => $credential,
-        'utilisateur' => $utilisateur,
-    ]);
-}
-
-#[Route('/compte/utilisateur/supprimer', name: 'app_compte_delete', methods: ['POST'])]
-public function delete(
-    Request $request,
-    EntityManagerInterface $em,
-    SessionInterface $session
-): Response {
-    $credential = $this->getUser();
-
-    if (!$credential) {
-        throw $this->createAccessDeniedException();
-    }
-
-    $user = $credential->getUser();
-
-    if (!$user) {
-        throw new \LogicException('Credential sans entité User associée');
-    }
-
-    if (!$this->isCsrfTokenValid('delete-account-' . $credential->getId(), $request->request->get('_token'))) {
-        $this->addFlash('error', 'Vérification de sécurité échouée.');
-        return $this->redirectToRoute('app_compte_utilisateur');
-    }
-
-    $session->invalidate();
-    $this->container->get('security.token_storage')->setToken(null);
-
-    $em->remove($credential);
-    $em->flush();
-
-
-    $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
-
-    return $this->redirectToRoute('app_login');
-}
-
-#[Route('/compte/utilisateur/modification', name: 'app_compte_modif', methods: ['GET', 'POST'])]
-public function update(
-    Request $request,
-    EntityManagerInterface $em,
-    UserPasswordHasherInterface $passwordHasher
-): Response {
-    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-    /** @var Credential $credential */
-    $credential = $this->getUser();
-    $user = $credential->getUser();
-
-    if (!$user) {
-        throw new \LogicException('Credential sans entité User associée');
-    }
-
-    $form = $this->createForm(UserUpdateType::class, $credential);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $changed = false;
-
-        // ── Credential ──
-        $email = $form->get('email')->getData();
-        if ($email !== null && $email !== '') {
-            $credential->setEmail($email);
-            $changed = true;
+        if (!$credential) {
+            throw $this->createAccessDeniedException('Vous devez être connecté.');
         }
 
-        $plainPassword = $form->get('plainPassword')->getData();
-        if ($plainPassword !== null && $plainPassword !== '') {
-            $credential->setPassword(
-                $passwordHasher->hashPassword($credential, $plainPassword)
-            );
-            $changed = true;
+        $utilisateur = $credential->getUser();
+
+        if (!$utilisateur) {
+            throw new \LogicException('Credential sans entité User associée');
         }
 
-        // ── User ──
-$fields = ['nom', 'prenom', 'adresse', 'telephone'];
-foreach ($fields as $field) {
-    $value = $form->get($field)->getData();
-
-    // On ignore tout ce qui est null, '', ou espaces vides
-    if (!empty(trim((string)$value))) {
-        $setter = 'set' . ucfirst($field);
-        $user->$setter($value);
-        $changed = true;
+        return $this->render('compte_utilisateur/index.html.twig', [
+            'credential' => $credential,
+            'utilisateur' => $utilisateur,
+        ]);
     }
-}
-        // ── Sports (ManyToMany) ──
-        $sportsForm = $form->get('sports')->getData();
-        if ($sportsForm !== null) {
-            $currentSportsCollection = $user->getSportId(); // PersistentCollection
-            $currentSportsArray = $currentSportsCollection->toArray();
 
-            // Supprimer les sports décochés
-            foreach ($currentSportsArray as $sport) {
-                if (!in_array($sport, is_array($sportsForm) ? $sportsForm : $sportsForm->toArray(), true)) {
-                    $user->removeSport($sport);
+    #[Route('/compte/utilisateur/supprimer', name: 'app_compte_delete', methods: ['POST'])]
+    public function delete(
+        Request $request,
+        EntityManagerInterface $em,
+        SessionInterface $session
+    ): Response {
+        $credential = $this->getUser();
+
+        if (!$credential) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $user = $credential->getUser();
+
+        if (!$user) {
+            throw new \LogicException('Credential sans entité User associée');
+        }
+
+        if (!$this->isCsrfTokenValid('delete-account-' . $credential->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Vérification de sécurité échouée.');
+            return $this->redirectToRoute('app_compte_utilisateur');
+        }
+
+        $session->invalidate();
+        $this->container->get('security.token_storage')->setToken(null);
+
+        $em->remove($credential);
+        $em->flush();
+
+        $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
+
+        return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/compte/utilisateur/modification', name: 'app_compte_modif', methods: ['GET', 'POST'])]
+    public function update(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordHasherInterface $passwordHasher
+    ): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        /** @var Credential $credential */
+        $credential = $this->getUser();
+        $user = $credential->getUser();
+
+        if (!$user) {
+            throw new \LogicException('Credential sans entité User associée');
+        }
+
+        $form = $this->createForm(UserUpdateType::class, $credential);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $changed = false;
+
+            // ── Credential ──
+            $email = $form->get('email')->getData();
+            if ($email !== null && $email !== '') {
+                $credential->setEmail($email);
+                $changed = true;
+            }
+
+            $plainPassword = $form->get('plainPassword')->getData();
+            if ($plainPassword !== null && $plainPassword !== '') {
+                $credential->setPassword(
+                    $passwordHasher->hashPassword($credential, $plainPassword)
+                );
+                $changed = true;
+            }
+
+            // ── User ──
+            $fields = ['nom', 'prenom', 'adresse', 'telephone'];
+            foreach ($fields as $field) {
+                $value = $form->get($field)->getData();
+
+                // On ignore tout ce qui est null, '', ou espaces vides
+                if (!empty(trim((string)$value))) {
+                    $setter = 'set' . ucfirst($field);
+                    $user->$setter($value);
                     $changed = true;
                 }
             }
 
-            // Ajouter les nouveaux sports cochés
-            foreach ($sportsForm as $sport) {
-                if (!$currentSportsCollection->contains($sport)) {
-                    $user->addSport($sport);
-                    $changed = true;
+            // ── Sports (ManyToMany) ──
+            $sportsForm = $form->get('sports')->getData();
+            if ($sportsForm !== null) {
+                $currentSportsCollection = $user->getSportId(); // PersistentCollection
+
+                // Supprimer les sports décochés
+                foreach ($currentSportsCollection as $sport) {
+                    if (!$sportsForm->contains($sport)) {
+                        $user->removeSportId($sport);
+                    }
+                }
+
+                // Ajouter les nouveaux sports cochés
+                foreach ($sportsForm as $sport) {
+                    if (!$currentSportsCollection->contains($sport)) {
+                        $user->addSportId($sport);
+                    }
                 }
             }
+
+            // ── Enregistrer uniquement si quelque chose a changé ──
+            if ($changed) {
+                $em->flush();
+                $this->addFlash('success', 'Modifications enregistrées.');
+            } else {
+                $this->addFlash('info', 'Aucune modification n\'a été effectuée.');
+            }
+
+            return $this->redirectToRoute('app_compte_utilisateur');
         }
 
-        // ── Enregistrer uniquement si quelque chose a changé ──
-        if ($changed) {
-            $em->flush();
-            $this->addFlash('success', 'Modifications enregistrées.');
-        } else {
-            $this->addFlash('info', 'Aucune modification n\'a été effectuée.');
-        }
-
-        return $this->redirectToRoute('app_compte_utilisateur');
+        return $this->render('compte_utilisateur/update_user.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
-
-    return $this->render('compte_utilisateur/update_user.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
-
 
     #[Route('/compte/utilisateur/commandes', name: 'app_compte_commandes')]
-        public function commands(){
-            $commandes = $this->getUser()->getUser()->getCommandeClients()->toArray();
-            usort($commandes, function($a, $b) {
-                return $b->getDateCommande() <=> $a->getDateCommande();
-            });
+    public function commands(): Response
+    {
+        $commandes = $this->getUser()->getUser()->getCommandeClients()->toArray();
+        usort($commandes, function ($a, $b) {
+            return $b->getDateCommande() <=> $a->getDateCommande();
+        });
+
         return $this->render('compte_utilisateur/commandes.html.twig', [
             'commandes' => $commandes,
         ]);
-
-        }
-    
+    }
 }

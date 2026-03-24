@@ -101,5 +101,32 @@ class ProduitRepository extends ServiceEntityRepository
         return $sql->getQuery()->getResult();
     }
 
+//    public function getProductStockWeb(int $id) {
+//        $sql = $this->createQueryBuilder("p")
+//            ->join('p.entreposer','e')
+//            ->join('e.entrepot','en')
+//            ->select('e.quantite')
+//            ->where('p.id = :id')
+//            ->andWhere('en.web = true')
+//            ->setParameter('id', $id); 
+//        return $sql->getQuery()->getOneOrNullResult();
+//
+//    }  
+//    
+//    public function getProductStockPhysique(int $id) {
+//        $sql = $this->createQueryBuilder("p")
+//            ->join('p.entreposer','e')
+//            ->join('e.entrepot','en')
+//            ->select('en.nom','e.quantite')
+//            ->where('p.id = :id')
+//            ->andWhere('en.web = 0')
+//            ->setParameter('id', $id); 
+//        return $sql->getQuery()->getResult();
+//
+//    }
+
+      
+    
+
   
 }

@@ -20,7 +20,7 @@
     <div class="product-badges">
         <span>Nouveau</span>
         <span>Qualité premium</span>
-        <span>Stock limité</span>
+        
     </div>
 
     <div class="product-price">{{ produit.prix }} €</div>
@@ -39,8 +39,68 @@
     <div class="product-meta">
         <div><strong>Référence :</strong> {{ produit.id }}</div>
         <div><strong>Catégorie :</strong> {{ produit.categorie.libelle ?? '—' }}</div>
+        <br>
+        
     </div>
 
+
+        {% set say  = false %}
+
+        {% for entrepot in entrepots %}
+            {% if entrepot.web %}
+                <span class="stock-type">Pour livraison :</span>
+            {% elseif say == false %}
+                {% set say = true %}
+                <span class="stock-type">Pour Retrait en magasin :</span>
+            {% endif %}
+
+            <div class="entrepot-info">
+                <div><strong>Stock :</strong> {{ entrepot.nom }}</div>
+
+                {% if entrepot.quantite == 0 %}
+                    <div class="stock-badge stock-unavailable">Rupture de stock</div>
+                {% else %}
+                    <div class="stock-badge stock-available">Quantité disponible : {{ entrepot.quantite }}</div>
+                {% endif %}
+            </div>
+
+
+
+
+
+
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     <div class="product-actions">
         <button class="btn-add" onclick="tryToAdd({{ produit.id }}, '{{ produit.libelle }}')">Ajouter au panier</button>
         <a href="{{ path('app_produit') }}" class="btn-back">Retour</a>

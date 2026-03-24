@@ -1,24 +1,32 @@
 function sendPanier() {
 	const p = getPanier();
 
+	console.log("try ");
 
-	fetch("/commande/client", {
-		method: "POST", 
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify(p)
-	})
+	try {
+		fetch("/commande/client", {
+			method: "POST", 
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(p)
+		})
+	
+		.then(response => response.json())
+		.then(data => {
+			if (data.status == "success") {
+				newModal("Commande passée avec succès !", 3);
+				// dropPanier();
+				window.location.href = "/commande/client/payee";
+			}else {
+				newModal("Une erreur est survenue lors de la commande.", 3);
+			}
+		})
+	} catch (error) {
+		console.error("Error:", error);
+		newModal("Une erreur est survenue lors de la commande.", 3);
+	}
 
-	.then(response => response.json())
-	.then(data => {
-		if (data.status == "success") {
-			newModal("Commande passée avec succès !", 3);
-			dropPanier();
-		}else {
-			newModal("Une erreur est survenue lors de la commande.", 3);
-		}
-	})
 	
 
 }

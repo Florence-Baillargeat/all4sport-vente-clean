@@ -19,7 +19,7 @@ class Entreposer
     #[ORM\Column(length: 255)]
     private ?string $categorie = null;
 
-    #[ORM\ManyToOne(inversedBy: 'entroposer')]
+    #[ORM\ManyToOne(inversedBy: 'entreposer')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Produit $produit = null;
 

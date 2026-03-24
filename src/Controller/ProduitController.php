@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Repository\EntrepotRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +12,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Image;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Entrepot;
+use App\Entity\Entreposer;
+use App\Repository\EntreposerRepository;
 
 final class ProduitController extends AbstractController
 {
@@ -65,13 +69,22 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}', name: 'app_produit_show')]
-    public function show(int $id, ProduitRepository $produitRepository): Response
+    public function show(int $id, ProduitRepository $produitRepository, EntrepotRepository $entrepotRepository): Response
     {
         $produit = $produitRepository->find($id);
         $images = $produit->getImage();
+
+        // $stockweb = $produitRepository->getProductStockWeb($id);
+        // $stockphysique = $produitRepository->getProductStockPhysique($id);
+        // $endroitStockage = $produit->getEntreposer();
+
+
+        $entrepots = $entrepotRepository->getProductStock($id);
+
         return $this->render('produit/show.html.twig', [
             'produit' => $produit,
             'images' => $images,
+            'entrepots' => $entrepots
         ]);
     }
 

@@ -1,200 +1,366 @@
-{% extends 'base.html.twig' %}
+    {% extends 'base.html.twig' %}
 
-{% block title %}Les commandes{% endblock %}
+    {% block title %}Les commandes{% endblock %}
 
-{% block body %}
+    {% block body %}
 
 
 
-<style>
+    <style>
 
-.content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	width: 100%;
-}
-
-.filter {
-	width: 100%;
-	height: 70px;
-	background: red;
-
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-}
-
-/* Container principal pour chaque commande */
-.commande-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-
-		width: 80%;
-}
-
-.commande-card:hover {
-    transform: translateY(-3px);
-}
-
-/* Header de la commande */
-.commande-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.commande-id {
-    color: #333;
-}
-
-.commande-date {
-    color: #666;
-    font-size: 14px;
-}
-
-/* Select du statut */
-select {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-/* Input de recherche */
-input[type="text"] {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    margin-left: 10px;
-}
-
-/* Produits */
-.commande-produits h4 {
-    margin-bottom: 8px;
-    color: #222;
-}
-
-.commande-produits ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.commande-produits li {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.produit-nom {
-    font-weight: 500;
-    color: #333;
-}
-
-.produit-infos {
-    color: #555;
-}
-
-/* Container pour filtre et recherche */
-div > select, div > input[type="text"] {
-    margin-bottom: 16px;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .commande-header {
+    .content {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+
+        width: 100%;
+    }
+
+    .filter {
+        width: 100%;
+        height: 70px;
+
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        padding-right: 150px;
+
+        gap: 30px
+    }
+
+    .filter *,
+    .filter input {
+        margin: 0px !important;
+    }
+
+    .filter input {
+        width: 250px;
+    }
+
+    /* Container principal pour chaque commande */
+    .commande-card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+
+            width: 80%;
+    }
+
+    .commande-card:hover {
+        transform: translateY(-3px);
+    }
+
+    /* Header de la commande */
+    .commande-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .commande-id {
+        color: #333;
+    }
+
+    .commande-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        align-items: flex-end;
+    }
+
+    .commande-date {
+        color: #666;
+        font-size: 14px;
+    }
+
+    /* Select du statut */
+    select {
+        padding: 6px 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    /* Input de recherche */
+    input[type="text"] {
+        padding: 6px 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+
+    /* Produits */
+    .commande-produits h4 {
+        margin-bottom: 8px;
+        color: #222;
+    }
+
+    .commande-produits ul {
+        list-style-type: none;
+        padding-left: 0;
     }
 
     .commande-produits li {
-        flex-direction: column;
-        align-items: flex-start;
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .produit-nom {
+        font-weight: 500;
+        color: #333;
     }
 
     .produit-infos {
-        margin-top: 4px;
+        color: #555;
     }
 
-    div > input[type="text"] {
-        margin-left: 0;
-        margin-top: 8px;
-        width: 100%;
+    /* Container pour filtre et recherche */
+    div > select, div > input[type="text"] {
+        margin-bottom: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .commande-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .commande-produits li {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .produit-infos {
+            margin-top: 4px;
+        }
+
+        div > input[type="text"] {
+            margin-left: 0;
+            margin-top: 8px;
+            width: 100%;
+        }
+    }
+
+    .filter button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Bouton Filtrer */
+.filter button[value="filter"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.filter button[value="filter"]:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+/* Bouton Reset */
+.filter button[value="reset"] {
+    background-color: #f44336;
+    color: white;
+}
+
+.filter button[value="reset"]:hover {
+    background-color: #d7382d;
+    transform: translateY(-1px);
+}
+
+/* Effet au clic */
+.filter button:active {
+    transform: scale(0.96);
+}
+
+.update-content {
+    width: 100%;
+    display:flex;
+    justify-content: end;
+}
+
+/* Bouton Update */
+.commande-card button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    background-color: #2196F3;
+    color: white;
+    transition: all 0.2s ease;
+    margin-top: 12px;
+}
+
+/* Hover */
+.commande-card button:hover {
+    background-color: #1e87db;
+    transform: translateY(-1px);
+}
+
+/* Click */
+.commande-card button:active {
+    transform: scale(0.96);
+}
+
+
+.commande-card {
+    animation: commeRigth 1.5s ease forwards;
+    opacity: 0;
+
+    animation-fill-mode: forwards;
+}
+
+.Update {
+    animation: drop 1.5s ease forwards;
+    opacity: 0;
+
+    animation-fill-mode: forwards;
+}
+
+@keyframes commeRigth {
+    0% {
+        opacity: 0;
+    }
+
+    80% {
+        transform: translatex(50px);
+    }
+
+    95% {
+        transform: translatex(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translatex(0)
     }
 }
 
-</style>
+@keyframes drop {
+    0% {
+        opacity: 0;
+    }
 
-<div class="content"> 
+    80% {
+        transform: translatey(10px);
+    }
 
-	<div class="filter">
+    95% {
+        transform: translatey(-5px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translatey(0)
+    }
+}
+    </style>
+
+    <div class="content"> 
+
+        <form class="filter" method="get" action="{{ path('app_commande_client_admin') }}">
 
 
-        <select>
-					<option> Tous</option>
-          {% for statut in statutsCommande %}
-            	<option value="{{ statut.id }}">{{ statut.libelle }}</option>
-					{% endfor %}
-        </select>
+            <select name="status">
+                        <option value="all"> Tous</option>
+            {% for status in statutsCommande %}
+                {% if status.id == selectedStatus %}
+                <option selected value="{{ status.id }}">{{ status.libelle }}</option>
+                {% else %}
+                    <option value="{{ status.id }}">{{ status.libelle }}</option>
+
+                {% endif %}
 
 
-		<input type="text">
+                        {% endfor %}
+            </select>
 
-	</div>
+
+            <input type="text" name="search" placeholder="Rechercher par ID ou nom de client" value="{{ searchInput|default('') }}">
+
+            <button type="submit" name="action" value="filter">Filtrer</button>
+
+            <button type="submit" name="action" value="reset" >Reset</button>
+
+        </form>
 
 
-{% for commande in commandes %}
-    <div class="commande-card">
+    {% for commande in commandes %}
+        <form class="commande-card" method="post" action="{{ path('app_commande_client_update') }}" style="
+                transform: translatex(1500px);
+                animation-delay: {{0.2 * loop.index}}s;
+            ">
 
-        <div class="commande-header">
-            <span class="commande-id">Commande #{{ commande.id }}</span>
-            <span class="commande-date">Date de commande : {{ commande.dateCommande|date('d/m/Y') }}</span>
-        </div>
+            <div class="commande-header">
+                <span class="commande-id">Commande #{{ commande.id }}</span>
+                <div class="commande-info">
+                    <span> Client : {{ commande.userId.prenom }} {{ commande.userId.nom }}</span>
+                    <span class="commande-date">Date de commande : {{ commande.dateCommande|date('d/m/Y') }}</span>
+                </div>
+            </div>
 
-        <select>
-          {% for statut in statutsCommande %}
-            {% if statut.id == commande.statutCommandeId.id %}
-            	<option value="{{ commande.statutCommandeId.id }}" selected>{{ statut.libelle }}</option>
-            {% else %}
-            	<option value="{{ statut.id }}">{{ statut.libelle }}</option>
-						{% endif %}
-					{% endfor %}
-        </select>
-
-        <div class="commande-produits">
-            <h4>Produits :</h4>
-            <ul>
-                {% for item in commande.contenir %}
-                    <li>
-                        <span class="produit-nom">
-                            {{ item.produit.libelle }}
-                        </span>
-                        <span class="produit-infos">
-                            x{{ item.quantite }} • {{ item.PrixUnitaire }} €
-                        </span>
-                    </li>
+            <select name="newStatusId"  >
+                {% for statut in statutsCommande %}
+                    {% if statut.id == commande.statutCommandeId.id %}
+                        <option value="{{ statut.id }}" selected>{{ statut.libelle }}</option>
+                    {% else %}
+                        <option value="{{ statut.id }}">{{ statut.libelle }}</option>
+                    {% endif %}
                 {% endfor %}
-            </ul>
-        </div>
+            </select>
+
+            <div class="commande-produits">
+                <h4>Produits :</h4>
+                <ul>
+                    {% for item in commande.contenir %}
+                        <li>
+                            <span class="produit-nom">
+                                {{ item.produit.libelle }}
+                            </span>
+                            <span class="produit-infos">
+                                x{{ item.quantite }} • {{ item.PrixUnitaire }} €
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="update-content"> 
+            <input type="hidden" name="commandeId" value="{{ commande.id }}"> 
+            <button class="Update" type="submit"
+            style="
+                transform: translatey(-300px);
+                animation-delay: {{  1+0.2 * loop.index}}s;
+                "> Update </button>
+            </div>
+
+
+        </form>
+    {% endfor %}
+
 
     </div>
-{% endfor %}
 
-
-</div>
-
-{% endblock %}
+    {% endblock %}
