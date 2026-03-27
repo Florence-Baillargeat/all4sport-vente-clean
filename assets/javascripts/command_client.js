@@ -1,7 +1,8 @@
 function sendPanier() {
 	const p = getPanier();
 
-	console.log("try ");
+	console.log(JSON.stringify(p));
+
 
 	try {
 		fetch("/commande/client", {
@@ -16,10 +17,27 @@ function sendPanier() {
 		.then(data => {
 			if (data.status == "success") {
 				newModal("Commande passée avec succès !", 3);
-				// dropPanier();
+			 // 	dropPanier();
 				window.location.href = "/commande/client/payee";
+			}else if (data.status == "error"){
+				let errorMessage = " Erreur : " + data.message + "<br>"; ;
+				let qttMissing = data.details;
+				let time = 3;
+
+				console.log(data.details);
+
+				if ( qttMissing.length > 0) {
+					errorMessage += "Articles manquants : <br>";
+					qttMissing.forEach(missing => {
+						const dif = missing.quantiteDemandee - missing.quantiteDisponible; 
+							errorMessage += " => " + missing.name + " - missing : " + dif + " <br> ";
+
+							time += 2;
+					});
+				}
+				newModal(errorMessage , time);
 			}else {
-				newModal("Une erreur est survenue lors de la commande.", 3);
+				newModal("ELSE Une erreur est survenue lors de la commande.", 3);
 			}
 		})
 	} catch (error) {

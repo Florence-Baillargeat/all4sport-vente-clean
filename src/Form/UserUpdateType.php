@@ -52,7 +52,6 @@ class UserUpdateType extends AbstractType
                 ],
             ])
 
-            // ── Champs de User (via property_path) ──
             ->add('nom', TextType::class, [
                 'property_path' => 'user.nom',
                 'required'      => false,

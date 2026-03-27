@@ -3,7 +3,176 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form method="post">
+
+    <style>
+/* =========================
+   VARIABLES (optionnel mais propre)
+========================= */
+:root {
+    --blue-gradient: linear-gradient(135deg, #cbd5ff, #a3bffa);
+    --red-gradient: linear-gradient(135deg, #ffb3b3, #ff8c8c);
+}
+
+/* =========================
+   FORM CONTAINER
+========================= */
+form[name="produit"] {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+
+    border-radius: 18px;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+
+    animation: dropDown 0.8s ease-out;
+}
+
+/* =========================
+   FIELD BLOCK
+========================= */
+#produit > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* =========================
+   LABEL
+========================= */
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+label.required::after {
+    content: " *";
+    color: #e53e3e;
+}
+
+/* =========================
+   INPUT / TEXTAREA / SELECT
+========================= */
+input,
+textarea,
+select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+
+    font-size: 14px;
+    color: #1f2937;
+
+    outline: none;
+
+    background:
+        linear-gradient(white, white) padding-box,
+        var(--blue-gradient) border-box;
+
+    transition: all 0.25s ease;
+}
+
+/* Hover léger */
+input:hover,
+textarea:hover,
+select:hover {
+    transform: translateY(-1px);
+}
+
+/* Focus */
+input:focus,
+textarea:focus,
+select:focus {
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.4);
+    transform: translateY(-2px);
+}
+
+/* =========================
+   TEXTAREA
+========================= */
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* =========================
+   SELECT
+========================= */
+select {
+    cursor: pointer;
+}
+
+.form-signin {
+    display: flex;
+
+    flex-direction: column;
+
+    max-width: 400px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+.btn {
+    margin-top: 10px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 12px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    background: var(--red-gradient);
+    color: #1f2937;
+
+    transition: all 0.25s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes dropDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media screen and (max-width: 768px) {
+    form[name="produit"] {
+        margin: 20px;
+        padding: 20px;
+    }
+}
+    </style>
+
+    <div class="content">
+
+    <form method="post" class="form-signin">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -35,4 +204,7 @@
             Sign in
         </button>
     </form>
+
+</div>
+
 {% endblock %}

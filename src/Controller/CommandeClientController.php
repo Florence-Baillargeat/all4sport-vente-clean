@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EntreposerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,15 +14,49 @@ use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CommandeClientRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Repository\EntrepotRepository;
 
 final class CommandeClientController extends AbstractController
 {
     #[Route('/commande/client', name: 'app_commande_client')]
-    public function index(Request $request, StatutCommandeRepository $statutCommandeRepository, ProduitRepository $produitRepository, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, StatutCommandeRepository $statutCommandeRepository, ProduitRepository $produitRepository, EntreposerRepository $entreposerRepository, EntityManagerInterface $entityManager, EntrepotRepository $entrepotRepository): Response
     {
         try {
 
             if ($request->getMethod() === 'POST') {
+                
+                $authorized = true;
+                $panier = json_decode($request->getContent(), true);
+                $qttMissing = [];
+                
+                // Parcourir tt les produits du panier et vérifier la quantité disponible dans l'entrepôt
+                // Si pas disponible mettre authorized à false et sortir de la boucle
+                foreach($panier as $produit){
+                    $produitId = $produit['articleId'];
+                    $quantite = $produit['quantiter'];
+                    $produit = $produitRepository->find($produitId);
+                    $entreposer = $entreposerRepository->findOneBy(['produit' => $produit]);
+                    if ($entreposer->getQuantite() < $quantite) {
+                        // si la quantité disponible est inférieure à la quantité demandée, mettre authorized à false et sortir de la boucle
+                        $authorized = false;
+                        
+                        $qttMissing[] = [
+                            'name' => $produit->getLibelle(),
+                            'quantiteDisponible' => $entreposer->getQuantite(),
+                            'quantiteDemandee' => $quantite
+                        ];
+
+                    }
+                }
+
+                // si authorized est false retourner une réponse json avec un message d'erreur et ne pas créer la commande
+                if (!$authorized) {
+                    return $this->json(['status' => 'error', 'message' => 'Quantité insuffisante pour certains articles', 'details' => $qttMissing], Response::HTTP_BAD_REQUEST);
+                }
+
+            
+            // Si authorized est true, créer la commande et les contenirs associés, puis mettre à jour les quantités dans l'entrepôt
+
                 $commande = new CommandeClient();
                 $commande->setDateCommande(new \DateTime());
                 $commande->setUserId($this->getUser()->getUser());
@@ -38,7 +73,16 @@ final class CommandeClientController extends AbstractController
                     $contenir->setCommandeClient($commande);
                     $contenir->setPrixUnitaire($produitRepository->find($produitId)->getPrix());
                     $entityManager->persist($contenir);
+
+                    $produit = $produitRepository->find($produitId);
+                    $entreposer = $entreposerRepository->findOneBy(['produit' => $produit]);
+                        
+                    $entreposer->setQuantite($entreposer->getQuantite()- $quantite);
+                    $entityManager->persist($entreposer);
+    
                 }
+
+                
     
                   $entityManager->flush();
                   return $this->json(['status' => 'success']);
@@ -125,8 +169,5 @@ final class CommandeClientController extends AbstractController
         return $this->redirectToRoute('app_commande_client_admin', ['success' => 'Statut de la commande mis à jour avec succès.']);
 
     }
-
-
-
 
 }

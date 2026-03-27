@@ -9,8 +9,7 @@ AUTHENTIFIER, 11 CREDENTIALS, 11 USERS
 USERS: code, nom, prenom, adresse, telephone, dateNaissance
 PRATIQUER, 0N USERS, 0N SPORTS
 STATUT_COMMANDE: id, libelle
-:
-I AM FIORA SUPP: Challenger, 1200LP
+
 
 CREDENTIALS: id, mail, pwd, roles
 COMMANDER, 0N USERS, 11 COMMANDE_CLIENTS

@@ -3,9 +3,182 @@
 {% block title %}New Produit{% endblock %}
 
 {% block body %}
-    <h1>Create new Produit</h1>
+
+<style>
+
+
+.content {
+    position: relative;
+
+    display: flex;
+
+}   
+
+
+/* --- FORM CONTAINER --- */
+form[name="produit"] {
+    min-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+
+    border-radius: 18px;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+
+    animation: dropDown 0.8s ease-out;
+}
+
+/* --- FIELD BLOCK --- */
+#produit > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* --- LABEL --- */
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+
+    padding-top: 10px;
+}
+
+/* obligatoire */
+label.required::after {
+    content: " *";
+    color: #e53e3e;
+}
+
+/* --- INPUT / TEXTAREA / SELECT --- */
+input,
+textarea,
+select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+
+    font-size: 14px;
+    color: #1f2937;
+
+    outline: none;
+
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #cbd5ff, #a3bffa) border-box;
+
+    transition: all 0.25s ease;
+}
+
+/* textarea taille */
+textarea {
+    min-height: 250px;
+    resize: vertical;
+}
+
+/* focus */
+input:focus,
+textarea:focus,
+select:focus {
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.4);
+    transform: translateY(-2px);
+}
+
+/* --- SELECT STYLE (cohérent avec ton site) --- */
+select {
+    cursor: pointer;
+}
+
+/* --- BUTTON --- */
+.btn {
+    margin-top: 10px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 12px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #ffb3b3, #ff8c8c);
+    color: #1f2937;
+
+    transition: all 0.25s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* --- ANIMATION (réutilisée) --- */
+@keyframes dropDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.edit.box {
+    position: absolute;
+
+    right: 10px;
+    top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    gap: 20px;
+}
+
+
+.edit .button,
+.edit .btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #1f2937;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+
+    width : 100%;
+}
+
+/* --- BACK BUTTON --- */
+.edit .button.back {
+    background: linear-gradient(135deg,#cbd5ff,#a3bffa);
+}
+</style>
+<div class="content">
+
 
     {{ include('produit_crud/_form.html.twig') }}
 
-    <a href="{{ path('app_produit_crud_index') }}">back to list</a>
+    <div class="edit box">
+
+    <a href="{{ path('app_produit_crud_index') }}" class="button back">back to list</a>
+
+</div>
+
+</div>
+
+
 {% endblock %}
